@@ -1,0 +1,36 @@
+@mixin centerDiv {
+  margin: auto;
+  text-align: center;
+}
+
+@mixin centerElementHV {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#intro {
+  @include centerDiv();
+}
+
+#LoginForm {
+  @include centerDiv();
+  margin-top: 1%;
+  border: 2.5px solid black;
+  width: 40%;
+  border-radius: 6px;
+}
+
+#RegisterForm {
+  @include centerDiv();
+  margin-top: 1%;
+  border: 2.5px solid black;
+  width: 40%;
+  border-radius: 6px;
+}
+
+#spinner {
+  @include centerElementHV();
+}

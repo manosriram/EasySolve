@@ -1,0 +1,16 @@
+@mixin centerDiv {
+  margin: auto;
+  text-align: center;
+}
+
+#questionArea {
+  @include centerDiv();
+
+  #qstn {
+    border: solid;
+    outline: none;
+    &::placeholder {
+      text-align: center;
+    }
+  }
+}
