@@ -12,7 +12,8 @@ export const handleSubmit = (e, data) => {
   return async dispatch => {
     try {
       const resp = await fetch("/auth/register", {
-        postHandler,
+        method: postHandler.method,
+        headers: postHandler.headers,
         body: JSON.stringify({ data })
       });
       const data2 = await resp.json();

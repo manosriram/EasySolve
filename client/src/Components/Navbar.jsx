@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import * as actionCreator from "../Store/Actions/loginAction";
+const Cookie = require("js-cookie");
 
 const Navbar = props => {
+  const isLoggedIn = Cookie.get("auth_t") ? true : false;
+
+  const Logout = () => {
+    Cookie.remove("auth_t");
+    window.location = "/";
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
       <Link className="navbar-brand" to="/">
@@ -21,18 +27,23 @@ const Navbar = props => {
       >
         <span className="navbar-toggler-icon" />
       </button>
-      {props.isLoggedIn && (
+      {isLoggedIn && (
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <Link className="navbar-brand" to="#">
+              <Link className="navbar-brand" to="/userQs">
                 Your Questions
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="navbar-brand" onClick={Logout}>
+                Logout
               </Link>
             </li>
           </ul>
         </div>
       )}
-      {!props.isLoggedIn && (
+      {!isLoggedIn && (
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">

@@ -5,7 +5,11 @@ const Port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const db = require("./Setup/url").url;
 const cookieparser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
+const path = require("path");
 
+app.use(fileUpload());
+app.use("/public", express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(cookieparser());
 

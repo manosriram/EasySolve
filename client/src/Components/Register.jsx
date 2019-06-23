@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/registerAction";
 import { Link } from "react-router-dom";
 import "../Styles/Index.scss";
+import Navbar from "./Navbar";
 
 const Register = props => {
   useEffect(() => {
@@ -41,6 +42,7 @@ const Register = props => {
 
   return (
     <div id="intro">
+      <Navbar />
       <br />
       <br />
       <h3>{props.message}</h3>

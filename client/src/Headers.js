@@ -7,7 +7,6 @@ export const postHandler = {
 };
 
 export const getHandler = {
-  method: "POST",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json"

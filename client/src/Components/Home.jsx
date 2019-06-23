@@ -5,33 +5,51 @@ import { setLoader } from "../Store/Actions/loginAction";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { StyledButton, StyledInput } from "../Styles/StyledCom";
 import "../Styles/Home.scss";
-import * as logActionCreator from "../Store/Actions/loginAction";
 
 const Home = props => {
   const getStatus = async () => {
-    const resp = await fetch("/auth/isLoggedIn");
+    const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
-    props.setLoginStatus(data.loggedIn);
+    props.setUser(data.email);
   };
   useEffect(() => {
     getStatus();
-    console.log(props);
   }, []);
 
   const preSubmitHandler = e => {
-    const data = {
-      question: props.question,
-      attachment: props.attachment,
-      user: props.user
-    };
+    e.preventDefault();
 
-    props.submitData(e, data);
+    if (props.question && !props.attachment) {
+      let formData = new FormData();
+      formData.append("question", props.question);
+      formData.append("user", props.user);
+      props.submitData(e, formData);
+      return;
+    }
+    if (props.attachment || props.question) {
+      let formData = new FormData();
+      formData.append("imageFile", props.attachment[0]);
+      formData.append("question", props.question);
+      formData.append("user", props.user);
+      formData.set("enctype", "multipart/form-data");
+      props.submitData(e, formData);
+      return;
+    } else {
+      props.setMessage("Fill all the fields..");
+      return;
+    }
   };
 
   return (
     <>
-      <Navbar isLoggedIn={props.isLoggedIn} />
-      <div id="questionArea">
+      <Navbar />
+      <br />
+      <br />
+      <br />
+      <div id="message">
+        <h3>{props.message}</h3>
+      </div>
+      <form id="questionArea">
         <textarea
           name="question"
           id="qstn"
@@ -42,15 +60,15 @@ const Home = props => {
         />
         <br />
         <StyledInput
+          name="imageFile"
           type="file"
           borderC="transparent"
           onChange={props.handleFileChange}
-          name="attachment"
         />
         <br />
         <br />
         <StyledButton onClick={preSubmitHandler}>Ask</StyledButton>
-      </div>
+      </form>
     </>
   );
 };
@@ -60,7 +78,8 @@ const mapStateToProps = state => {
     isSpinning: state.Log.isSpinning,
     question: state.Qs.question,
     attachment: state.Qs.attachment,
-    user: state.Qs.user
+    user: state.Qs.user,
+    message: state.Qs.message
   };
 };
 
@@ -70,7 +89,8 @@ const mapDispatchToProps = dispatch => {
     handleChange: e => dispatch(actionCreator.handleChange(e)),
     handleFileChange: e => dispatch(actionCreator.handleFileChange(e)),
     submitData: (e, data) => dispatch(actionCreator.submitData(e, data)),
-    setLoginStatus: com => dispatch(logActionCreator.setLoginStatus(com))
+    setUser: user => dispatch(actionCreator.setUser(user)),
+    setMessage: msg => dispatch(actionCreator.setMessage(msg))
   };
 };
 

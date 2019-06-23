@@ -14,3 +14,19 @@
     }
   }
 }
+
+#message {
+  h3 {
+    transition: 1s;
+  }
+  @include centerDiv();
+}
+
+#Qs {
+  @include centerDiv();
+  img {
+    width: 70vw;
+    height: 50vh;
+    border-radius: 5px;
+  }
+}

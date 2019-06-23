@@ -22,7 +22,7 @@ const Index = props => {
   } else {
     return (
       <div id="intro">
-        <Navbar isLoggedIn={props.loggedInStatus} />
+        <Navbar />
         <h1>Easy Solve !</h1>
         <br />
         <h3>You Ask, We Answer !</h3>

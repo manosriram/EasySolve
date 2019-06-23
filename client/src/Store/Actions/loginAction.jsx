@@ -1,4 +1,4 @@
-import { getHandler } from "../../Headers";
+import { postHandler } from "../../Headers";
 
 export const handleChange = e => {
   return {
@@ -19,11 +19,12 @@ export const handleSubmit = (e, data) => {
   return async dispatch => {
     try {
       const resp = await fetch("/auth/login", {
-        method: getHandler.method,
-        headers: getHandler.headers,
+        method: postHandler.method,
+        headers: postHandler.headers,
         body: JSON.stringify({ data })
       });
       const data2 = await resp.json();
+      console.log(data2);
       dispatch({ type: "LOGIN_SUBMIT", e, data2 });
     } catch (er) {
       console.log(er);

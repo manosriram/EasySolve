@@ -12,7 +12,7 @@ router.get("/isLoggedIn", async (req, res) => {
   });
 });
 
-router.post("/userInfo", async (req, res) => {
+router.get("/userInfo", async (req, res) => {
   jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
     if (user) {
       return res.json({

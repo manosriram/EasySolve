@@ -13,7 +13,7 @@ const QuestionSchema = new Schema({
     required: true
   },
   attachment: {
-    type: Object
+    type: String
   }
 });
 

@@ -31,6 +31,11 @@ const Login = props => {
     props.handleSubmit(e, data);
   };
 
+  if (props.loggedInStatus) {
+    // window.location = "/home";
+    props.history.push("/home");
+  }
+
   if (props.isSpinning) {
     return (
       <div class="d-flex justify-content-center" id="spinner">
@@ -39,35 +44,31 @@ const Login = props => {
         </div>
       </div>
     );
-  } else {
-    if (props.loggedInStatus) {
-      return props.history.push("/home");
-    }
-
-    return (
-      <div id="intro">
-        <Navbar isLoggedIn={props.loggedInStatus} />
-        <br />
-        <br />
-        <h3>{props.message}</h3>
-        <div id="LoginForm" onChange={handleChange}>
-          <br />
-          <StyledInput type="email" placeholder="Email Address" name="email" />
-          <br />
-          <br />
-          <StyledInput type="password" placeholder="Password" name="password" />
-          <br />
-          <br />
-          <StyledButton onClick={handleSubmit}>Login</StyledButton>
-          <br />
-          <br />
-          <p>
-            Not Registered ? <Link to="/register">Create an Account</Link>
-          </p>
-        </div>
-      </div>
-    );
   }
+
+  return (
+    <div id="intro">
+      <Navbar />
+      <br />
+      <br />
+      <h3>{props.message}</h3>
+      <div id="LoginForm" onChange={handleChange}>
+        <br />
+        <StyledInput type="email" placeholder="Email Address" name="email" />
+        <br />
+        <br />
+        <StyledInput type="password" placeholder="Password" name="password" />
+        <br />
+        <br />
+        <StyledButton onClick={handleSubmit}>Login</StyledButton>
+        <br />
+        <br />
+        <p>
+          Not Registered ? <Link to="/register">Create an Account</Link>
+        </p>
+      </div>
+    </div>
+  );
 };
 
 const mapStateToProps = state => {

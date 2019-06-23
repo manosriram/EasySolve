@@ -1,4 +1,5 @@
 import { postHandler } from "../../Headers";
+const axios = require("axios");
 
 export const handleChange = e => {
   return {
@@ -14,22 +15,40 @@ export const handleFileChange = e => {
   };
 };
 
+export const setUser = user => {
+  return {
+    type: "SET_U",
+    user
+  };
+};
+
 export const submitData = (e, data) => {
   return async dispatch => {
     try {
-      const resp = await fetch("/file/addQuestion", {
-        method: postHandler.method,
-        headers: postHandler.headers,
-        body: JSON.stringify({ data })
-      });
-      const response = await resp.json();
+      let msg;
+      const resp = await axios.post("/file/addQuestion", data);
+      if (resp.data.success) {
+        msg = resp.data.message;
+      } else {
+        msg = "Error uploading file..";
+      }
+      dispatch({ type: "HANDLE_SUBMIT_Q", e, msg });
     } catch (er) {
       console.log(er);
     }
   };
+};
 
+export const setMessage = msg => {
   return {
-    type: "HANDLE_SUBMIT_Q",
-    e
+    type: "SET_MSG",
+    msg
+  };
+};
+
+export const setQs = qs => {
+  return {
+    type: "SET_QS",
+    qs
   };
 };
