@@ -14,6 +14,13 @@ const QuestionSchema = new Schema({
   },
   attachment: {
     type: String
+  },
+  questionStatus: {
+    type: Boolean
+  },
+  askedOn: {
+    type: Date,
+    default: Date.now()
   }
 });
 

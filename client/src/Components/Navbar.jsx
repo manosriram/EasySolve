@@ -36,6 +36,11 @@ const Navbar = props => {
               </Link>
             </li>
             <li className="nav-item active">
+              <Link className="navbar-brand" to="/contact">
+                Contact Us
+              </Link>
+            </li>
+            <li className="nav-item active">
               <Link className="navbar-brand" onClick={Logout}>
                 Logout
               </Link>

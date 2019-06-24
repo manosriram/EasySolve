@@ -67,7 +67,9 @@ const Home = props => {
         />
         <br />
         <br />
-        <StyledButton onClick={preSubmitHandler}>Ask</StyledButton>
+        <StyledButton id="ask" onClick={preSubmitHandler}>
+          Ask
+        </StyledButton>
       </form>
     </>
   );

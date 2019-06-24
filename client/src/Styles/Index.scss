@@ -34,3 +34,9 @@
 #spinner {
   @include centerElementHV();
 }
+
+nav {
+  border-radius: 30px;
+  width: 100%;
+  overflow: hidden;
+}

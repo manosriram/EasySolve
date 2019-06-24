@@ -24,7 +24,6 @@ export const handleSubmit = (e, data) => {
         body: JSON.stringify({ data })
       });
       const data2 = await resp.json();
-      console.log(data2);
       dispatch({ type: "LOGIN_SUBMIT", e, data2 });
     } catch (er) {
       console.log(er);

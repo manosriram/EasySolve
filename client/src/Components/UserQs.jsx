@@ -1,3 +1,4 @@
+import ImageZoom from "react-medium-image-zoom";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { connect } from "react-redux";
 import React, { useEffect } from "react";
@@ -5,6 +6,7 @@ import Navbar from "./Navbar";
 import { postHandler } from "../Headers";
 import "../Styles/Home.scss";
 import { setLoader } from "../Store/Actions/loginAction";
+const moment = require("moment");
 
 const UserQs = props => {
   const getQs = async email => {
@@ -32,38 +34,72 @@ const UserQs = props => {
     getQs();
   }, []);
 
+  // const downloadImage = async path => {
+  //   try {
+  //     const resp = await fetch("/file/downloadFile", {
+  //       method: postHandler.method,
+  //       headers: postHandler.headers,
+  //       body: JSON.stringify({ path })
+  //     });
+  //     const data = await resp.json();
+  //     console.log(data);
+  //   } catch (er) {
+  //     console.log(er);
+  //   }
+  // };
+
   if (props.isSpinning) {
     return (
-      <div class="d-flex justify-content-center" id="spinner">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+      <div className="d-flex justify-content-center" id="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
+  } else {
+    return (
+      <>
+        <Navbar />
+        <br />
+        <br />
+        <br />
+        <div>
+          {props.questions.map((question, questionIndex) => {
+            var ago = moment(question.askedOn).fromNow();
+            var originalString = question.question;
+            var modifiedString =
+              originalString.length > 20
+                ? originalString.substr(0, 20) + "..."
+                : originalString;
+            return (
+              <div id="Qs">
+                <div id="qtext">
+                  <h5 onClick={e => (e.target.innerHTML = originalString)}>
+                    {modifiedString}
+                  </h5>
+                </div>
+                <p>({ago})</p>
+                {/* <ImageZoom
+                  className="img"
+                  image={{
+                    src: question.attachment,
+                    alt: "Not found.",
+                    className: "img"
+                  }}
+                  zoomImage={{
+                    src: question.attachment,
+                    alt: "Not found.",
+                    className: "img--zoomed"
+                  }}
+                /> */}
+                <img id="img" src={question.attachment} alt="No Image added." />
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
   }
-
-  return (
-    <>
-      <Navbar />
-      <br />
-      <br />
-      <br />
-      <div id="Qs">
-        {props.questions.map((question, questionIndex) => {
-          return (
-            <>
-              <h5>{question.question}</h5>
-              <img
-                key={questionIndex}
-                src={question.attachment}
-                alt="Image Not Found.."
-              />
-            </>
-          );
-        })}
-      </div>
-    </>
-  );
 };
 
 const mapStateToProps = state => {

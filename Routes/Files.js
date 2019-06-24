@@ -3,6 +3,24 @@ const router = express.Router();
 const Question = require("../Models/QuestionModel");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
+const request = require("request");
+
+var download = function(uri, filename, callback) {
+  request.head(uri, function(err, res, body) {
+    request(uri)
+      .pipe(fs.createWriteStream(filename))
+      .on("close", callback);
+  });
+};
+
+router.post("/downloadFile", (req, res) => {
+  let { path } = req.body;
+
+  download(path, "image.png", function() {
+    console.log("done");
+  });
+});
 
 router.post("/getUserQuestions", async (req, res) => {
   const { user } = req.body;

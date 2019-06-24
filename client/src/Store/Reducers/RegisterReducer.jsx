@@ -29,6 +29,11 @@ const RegReducer = (state = initState, action) => {
       ...state,
       isSpinning: action.com
     };
+  } else if (action.type === "SET_MSG") {
+    return {
+      ...state,
+      message: action.msg
+    };
   }
   return state;
 };

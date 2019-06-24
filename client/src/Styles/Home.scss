@@ -22,11 +22,52 @@
   @include centerDiv();
 }
 
+img {
+  border-radius: 5px;
+}
+
 #Qs {
   @include centerDiv();
-  img {
-    width: 70vw;
-    height: 50vh;
-    border-radius: 5px;
+  #img {
+    width: 100%;
+    height: auto;
+  }
+  margin-bottom: 170px;
+  width: 70%;
+}
+
+#qtext {
+  @include centerDiv();
+  width: 70vw;
+  word-wrap: break-word;
+}
+
+input[type="file"] {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #Qs {
+    #img {
+      width: 100%;
+      height: 50vh;
+    }
+  }
+
+  #questionArea {
+    #qstn {
+      @include centerDiv();
+      width: 100%;
+    }
+  }
+
+  input[type="file"] {
+    border: 1px solid black;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
