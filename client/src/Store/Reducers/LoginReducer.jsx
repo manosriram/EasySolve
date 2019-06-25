@@ -30,6 +30,11 @@ const LogReducer = (state = initState, action) => {
       loggedInStatus: action.com,
       isSpinning: false
     };
+  } else if (action.type === "SET_MSG") {
+    return {
+      ...state,
+      message: action.msg
+    };
   }
 
   return state;

@@ -1,6 +1,21 @@
+@mixin centerDiv() {
+  margin: auto;
+  text-align: center;
+}
+
 @media only screen and (max-width: 768px) {
   #LoginForm,
   #RegisterForm {
     width: auto;
   }
+}
+
+#Qs {
+  @include centerDiv();
+  #img {
+    width: 70%;
+    height: auto;
+  }
+  margin-bottom: 170px;
+  width: 70%;
 }

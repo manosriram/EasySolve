@@ -37,3 +37,10 @@ export const setLoginStatus = com => {
     com
   };
 };
+
+export const setMessage = msg => {
+  return {
+    type: "SET_MSG",
+    msg
+  };
+};

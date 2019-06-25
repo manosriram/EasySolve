@@ -5,7 +5,8 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import Home from "./Components/Home";
 import UserQs from "./Components/UserQs";
-import Navbar from "./Components/Navbar";
+import AdminPanel from "./Components/AdminPanel";
+import Admin from "./Components/Admin";
 
 const App = () => {
   return (
@@ -17,6 +18,8 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/userQs" component={UserQs} />
+        <Route exact path="/adminPanel" component={AdminPanel} />
+        {/* <Route exact path="/admin" component={Admin} /> */}
       </BrowserRouter>
     </>
   );

@@ -52,3 +52,9 @@ export const setQs = qs => {
     qs
   };
 };
+
+export const setQA = () => {
+  return {
+    type: "ACT_AQ"
+  };
+};

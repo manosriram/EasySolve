@@ -4,7 +4,8 @@ const initState = {
   user: "",
   message: "",
   questions: [],
-  isSpinning: false
+  isSpinning: false,
+  answerQuestion: false
 };
 
 const QuestionReducer = (state = initState, action) => {
@@ -37,6 +38,11 @@ const QuestionReducer = (state = initState, action) => {
     return {
       ...state,
       questions: action.qs.questions
+    };
+  } else if (action.type === "ACT_AQ") {
+    return {
+      ...state,
+      answerQuestion: true
     };
   }
 
