@@ -5,9 +5,9 @@ const multer = require("multer");
 const path = require("path");
 
 router.post("/answerQuestion", async (req, res) => {
-  const { answer, user, id } = req.body;
+  const { answer, user, questionID } = req.body;
   if (!req.files) {
-    const an = await Question.findOne({ id });
+    const an = await Question.findOne({ _id: questionID });
     an.isAnswered = true;
     an.answeredBy = user;
     an.answer = {
@@ -24,7 +24,7 @@ router.post("/answerQuestion", async (req, res) => {
       else return res.json({ success: false, err });
     });
 
-    const qs = await Question.findOne({ id });
+    const qs = await Question.findOne({ _id: questionID });
     qs.isAnswered = true;
     qs.answeredBy = user;
     qs.answer = {

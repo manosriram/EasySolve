@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledInput = styled.input`
-  font-size: 2.3vh;
+  font-size: 2.1vh;
   border: solid;
   border-color : ${props => props.borderC}
   width: 25vw;
@@ -9,8 +9,8 @@ export const StyledInput = styled.input`
   outline: none;
 
   &::placeholder {
-    color: black;
     text-align: center;
+    color: black;
     outline: none;
   }
 `;

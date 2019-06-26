@@ -42,12 +42,9 @@ const Navbar = props => {
                 Your Questions
               </Link>
             </li>
-            <li className="nav-item active">
-              <Link className="navbar-brand" to="/contact">
-                Contact Us
-              </Link>
-            </li>
-            <li className="nav-item active">
+          </ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active" id="lg">
               <Link className="navbar-brand" onClick={Logout}>
                 Logout
               </Link>

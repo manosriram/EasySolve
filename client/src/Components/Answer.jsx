@@ -1,9 +1,20 @@
+import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 import React, { useEffect, useState } from "react";
 import { StyledInput, StyledButton } from "../Styles/StyledCom";
 const axios = require("axios");
 
+var originalString;
+var modifiedString;
 const Answer = ({ question, id, attachment }, props) => {
+  useEffect(() => {
+    originalString = question;
+    modifiedString =
+      originalString.length > 20
+        ? originalString.substr(0, 20) + "..."
+        : originalString;
+  }, []);
+
   const [file, setFile] = useState("");
   const [userData, setUserData] = useState({});
   const [message, setMessage] = useState("");
@@ -17,7 +28,6 @@ const Answer = ({ question, id, attachment }, props) => {
   };
 
   const handleFileChange = e => {
-    // setFile(e.target.files[0]);
     setUserData({ ...userData, attachment: e.target.files[0] });
   };
 
@@ -30,7 +40,6 @@ const Answer = ({ question, id, attachment }, props) => {
       formData.append("questionID", id);
 
       submitData(e, formData);
-      return;
     }
     if (userData.attachment || userData.answer) {
       let formData = new FormData();
@@ -40,20 +49,14 @@ const Answer = ({ question, id, attachment }, props) => {
       formData.append("questionID", id);
       formData.set("enctype", "multipart/form-data");
       submitData(e, formData);
-      return;
     } else {
       setMessage("Fill all the fields..");
-      return;
     }
   };
 
-  var originalString = question;
-  var modifiedString =
-    originalString.length > 20
-      ? originalString.substr(0, 20) + "..."
-      : originalString;
   return (
     <>
+      <Navbar />
       <div id="Qs">
         <h4>{message}</h4>
         <div id="qtext">

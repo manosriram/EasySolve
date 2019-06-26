@@ -39,4 +39,15 @@ nav {
   border-radius: 30px;
   width: 100%;
   overflow: hidden;
+  #lg {
+    justify-content: end;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  nav {
+    #lg {
+      margin-left: 0vw;
+    }
+  }
 }

@@ -34,19 +34,9 @@ const UserQs = props => {
     getQs();
   }, []);
 
-  // const downloadImage = async path => {
-  //   try {
-  //     const resp = await fetch("/file/downloadFile", {
-  //       method: postHandler.method,
-  //       headers: postHandler.headers,
-  //       body: JSON.stringify({ path })
-  //     });
-  //     const data = await resp.json();
-  //     console.log(data);
-  //   } catch (er) {
-  //     console.log(er);
-  //   }
-  // };
+  const toggleV = () => {
+    props.toggleVisibility();
+  };
 
   if (props.isSpinning) {
     return (
@@ -96,15 +86,30 @@ const UserQs = props => {
                 <br />
                 <br />
                 <br />
-
-                {!question.isAnswered && <h4>Not yet answered.</h4>}
-
-                {question.isAnswered && (
-                  <>
-                    <hr />
-                    <img id="img" src={question.answer.attachment} />
-                    <h4>{question.answer.answerString}</h4>
-                  </>
+                {!props.toggleV && (
+                  <h5 onClick={() => props.toggleVisibility()}>Show Answer.</h5>
+                )}
+                {props.toggleV && (
+                  <div id="answerElement">
+                    {question.isAnswered && (
+                      <>
+                        <hr />
+                        <img id="img" src={question.answer.attachment} />
+                        <h4>{question.answer.answerString}</h4>
+                        <p onClick={() => props.toggleVisibility()}>
+                          Show less.
+                        </p>
+                      </>
+                    )}
+                    {!question.isAnswered && (
+                      <>
+                        <h4>Not yet answered.</h4>
+                        <p onClick={() => props.toggleVisibility()}>
+                          Show less.
+                        </p>
+                      </>
+                    )}
+                  </div>
                 )}
               </div>
             );
@@ -119,7 +124,8 @@ const mapStateToProps = state => {
   return {
     user: state.Qs.user,
     questions: state.Qs.questions,
-    isSpinning: state.Log.isSpinning
+    isSpinning: state.Log.isSpinning,
+    toggleV: state.Qs.toggleV
   };
 };
 
@@ -127,7 +133,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUser: em => dispatch(actionCreator.setUser(em)),
     setQuestions: qs => dispatch(actionCreator.setQs(qs)),
-    setLoader: com => dispatch(setLoader(com))
+    setLoader: com => dispatch(setLoader(com)),
+    toggleVisibility: () => dispatch(actionCreator.toggleAnswerVisibility())
   };
 };
 

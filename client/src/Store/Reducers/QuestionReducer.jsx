@@ -5,7 +5,8 @@ const initState = {
   message: "",
   questions: [],
   isSpinning: false,
-  answerQuestion: false
+  answerQuestion: false,
+  toggleV: false
 };
 
 const QuestionReducer = (state = initState, action) => {
@@ -43,6 +44,11 @@ const QuestionReducer = (state = initState, action) => {
     return {
       ...state,
       answerQuestion: true
+    };
+  } else if (action.type === "TGL_VBT") {
+    return {
+      ...state,
+      toggleV: !state.toggleV
     };
   }
 

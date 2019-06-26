@@ -14,7 +14,6 @@ const Admin = props => {
   const getQs = async () => {
     const resp = await fetch("/file/getAllQuestions");
     const data = await resp.json();
-    // console.log(data.questions);
     props.setQuestions(data);
     props.setLoader(false);
   };
@@ -33,12 +32,22 @@ const Admin = props => {
   };
 
   if (Sans) {
-    return <Answer question={q.question} id={q.id} attachment={q.attachment} />;
+    return (
+      <Answer
+        question={q.question}
+        id={q.id}
+        attachment={q.attachment}
+        props={props}
+      />
+    );
   }
   var cn = 0;
   return (
     <>
       <Navbar />
+      <br />
+      <br />
+      <br />
       {props.questions.map((question, questionIndex) => {
         var ago = moment(question.askedOn).fromNow();
         var originalString = question.question;
@@ -46,7 +55,6 @@ const Admin = props => {
           originalString.length > 20
             ? originalString.substr(0, 20) + "..."
             : originalString;
-        // if (!question.isAnswered) {
 
         if (!question.isAnswered) {
           cn++;
@@ -61,9 +69,7 @@ const Admin = props => {
               <img id="img" src={question.attachment} alt="No Image added." />
               <br />
               <br />
-              <button onClick={question => handlePopUp(question)}>
-                Answer
-              </button>
+              <button onClick={() => handlePopUp(question)}>Answer</button>
             </div>
           );
         }

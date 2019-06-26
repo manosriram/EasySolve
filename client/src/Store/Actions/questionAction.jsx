@@ -58,3 +58,9 @@ export const setQA = () => {
     type: "ACT_AQ"
   };
 };
+
+export const toggleAnswerVisibility = () => {
+  return {
+    type: "TGL_VBT"
+  };
+};
