@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+hr {
+  background: black;
+  height: 5px;
+}
+
 #questionArea {
   @include centerDiv();
 
@@ -30,10 +35,11 @@ img {
   @include centerDiv();
   #img {
     width: 100%;
-    height: auto;
+    height: 40vh;
   }
   margin-bottom: 170px;
   width: 70%;
+  border: 1px solid black;
 }
 
 #qtext {
@@ -48,11 +54,16 @@ input[type="file"] {
   }
 }
 
+#pending {
+  @include centerDiv();
+  margin-top: 50px;
+}
+
 @media only screen and (max-width: 768px) {
   #Qs {
     #img {
       width: 100%;
-      height: 50vh;
+      height: 40vh;
     }
   }
 

@@ -31,6 +31,13 @@ const Navbar = props => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">
+              <Link className="navbar-brand" to="/adminPanel">
+                Admin Panel
+              </Link>
+            </li>
+          </ul>
+          <ul className="navbar-nav">
+            <li className="nav-item active">
               <Link className="navbar-brand" to="/userQs">
                 Your Questions
               </Link>

@@ -93,6 +93,19 @@ const UserQs = props => {
                   }}
                 /> */}
                 <img id="img" src={question.attachment} alt="No Image added." />
+                <br />
+                <br />
+                <br />
+
+                {!question.isAnswered && <h4>Not yet answered.</h4>}
+
+                {question.isAnswered && (
+                  <>
+                    <hr />
+                    <img id="img" src={question.answer.attachment} />
+                    <h4>{question.answer.answerString}</h4>
+                  </>
+                )}
               </div>
             );
           })}

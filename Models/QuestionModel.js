@@ -23,7 +23,7 @@ const QuestionSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  answer: [{ answerString: { type: String } }, { attachment: { type: String } }]
+  answer: { answerString: { type: String }, attachment: { type: String } }
 });
 
 module.exports = Question = mongoose.model("Questions", QuestionSchema);

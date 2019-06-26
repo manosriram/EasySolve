@@ -1,8 +1,8 @@
+import "../Styles/Home.scss";
 import Answer from "./Answer";
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { connect } from "react-redux";
-import { postHandler } from "../Headers";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { setLoader } from "../Store/Actions/loginAction";
 import { StyledInput, StyledButton } from "../Styles/StyledCom";
@@ -35,7 +35,7 @@ const Admin = props => {
   if (Sans) {
     return <Answer question={q.question} id={q.id} attachment={q.attachment} />;
   }
-
+  var cn = 0;
   return (
     <>
       <Navbar />
@@ -46,7 +46,10 @@ const Admin = props => {
           originalString.length > 20
             ? originalString.substr(0, 20) + "..."
             : originalString;
+        // if (!question.isAnswered) {
+
         if (!question.isAnswered) {
+          cn++;
           return (
             <div id="Qs">
               <div id="qtext">
@@ -58,11 +61,14 @@ const Admin = props => {
               <img id="img" src={question.attachment} alt="No Image added." />
               <br />
               <br />
-              <button onClick={() => handlePopUp(question)}>Answer</button>
+              <button onClick={question => handlePopUp(question)}>
+                Answer
+              </button>
             </div>
           );
         }
       })}
+      <div id="pending">{!cn && <h5>No pending Questions.</h5>}</div>
     </>
   );
 };

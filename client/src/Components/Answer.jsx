@@ -10,18 +10,15 @@ const Answer = ({ question, id, attachment }, props) => {
 
   const submitData = async (e, formData) => {
     const resp = await axios.post("/file/answerQuestion", formData);
-    console.log(resp);
   };
 
   const handleChange = e => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
-    console.log(userData);
   };
 
   const handleFileChange = e => {
     // setFile(e.target.files[0]);
     setUserData({ ...userData, attachment: e.target.files[0] });
-    console.log(file);
   };
 
   const preSubmitHandler = e => {

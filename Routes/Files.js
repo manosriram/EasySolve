@@ -5,32 +5,35 @@ const multer = require("multer");
 const path = require("path");
 
 router.post("/answerQuestion", async (req, res) => {
-  console.log(req.body);
-  console.log(req.files);
+  const { answer, user, id } = req.body;
   if (!req.files) {
-    const { answer, user, id } = req.body;
-    const an = Question.findOne({ id });
-    an.answeredBy = user;
-    an.answer.push({ answerString: answer });
+    const an = await Question.findOne({ id });
     an.isAnswered = true;
+    an.answeredBy = user;
+    an.answer = {
+      answerString: answer
+    };
     an.save();
     return res.json({ success: true, message: "Answer submitted." });
+  } else {
+    const fl = req.files.imageFile;
+    let newFileName = Date.now() + fl.name;
+
+    fl.mv(`${__dirname}/../public/answers/${newFileName}`, err => {
+      if (!err) console.log(`Uploaded ${newFileName}`);
+      else return res.json({ success: false, err });
+    });
+
+    const qs = await Question.findOne({ id });
+    qs.isAnswered = true;
+    qs.answeredBy = user;
+    qs.answer = {
+      answerString: answer,
+      attachment: `/public/answers/${newFileName}`
+    };
+    qs.save();
+    return res.json({ success: true, message: "Answer submitted." });
   }
-  const { answer, user, id } = req.body;
-  const fl = req.files.imageFile;
-  let newFileName = Date.now() + fl.name;
-
-  fl.mv(`${__dirname}/../public/answers/${newFileName}`, err => {
-    if (!err) console.log(`Uploaded ${newFileName}`);
-    else return res.json({ success: false, err });
-  });
-
-  const qs = await Question.findOne({ id });
-  qs.isAnswered = true;
-  qs.answer.answerString = answer;
-  qs.answer.attachment = `/public/answers/${newFileName}`;
-  qs.save();
-  return res.json({ success: true, message: "Answer submitted." });
 });
 
 router.get("/getAllQuestions", async (req, res) => {
