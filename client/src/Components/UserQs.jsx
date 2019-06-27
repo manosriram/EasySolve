@@ -9,7 +9,6 @@ import { setLoader } from "../Store/Actions/loginAction";
 const moment = require("moment");
 
 const UserQs = props => {
-  const [displayShow, setDisplayShow] = useState("Show Answer.");
   const getQs = async email => {
     const resp = await fetch("/file/getUserQuestions", {
       method: postHandler.method,
@@ -18,7 +17,6 @@ const UserQs = props => {
     });
     const data = await resp.json();
     props.setQuestions(data);
-    props.setLoader(false);
   };
 
   const getStatus = async () => {
@@ -26,8 +24,8 @@ const UserQs = props => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
     props.setUser(data.email);
-
     getQs(data.email);
+    props.setLoader(false);
   };
 
   useEffect(() => {
@@ -57,13 +55,12 @@ const UserQs = props => {
   } else {
     return (
       <>
-        <Navbar />
+        <Navbar props={props} />
         <br />
         <br />
         <br />
         <div>
           {props.questions.map((question, questionIndex) => {
-            let name = `div${questionIndex}`;
             var ago = moment(question.askedOn).fromNow();
             var originalString = question.question;
             var modifiedString =
@@ -95,29 +92,30 @@ const UserQs = props => {
                 <br />
                 <br />
                 <br />
-                {/* {props.toggleV && ( */}
-                <h5
-                  id={"msg" + questionIndex}
-                  onClick={() => toggleV(questionIndex)}
-                  className="showToggle"
-                >
-                  Show Answer
-                </h5>
-                <div id={"div" + questionIndex} className="answerElement">
-                  {question.isAnswered && (
-                    <>
-                      <hr />
-                      <img id="img" src={question.answer.attachment} />
-                      <h4>{question.answer.answerString}</h4>
-                    </>
-                  )}
-                  {!question.isAnswered && (
-                    <>
-                      <h4>Not yet answered.</h4>
-                    </>
-                  )}
-                </div>
-                {/* )} */}
+                {!question.isAnswered && (
+                  <>
+                    <h4>Not yet answered.</h4>
+                  </>
+                )}
+                {question.answer && (
+                  <>
+                    <h5
+                      id={"msg" + questionIndex}
+                      onClick={() => toggleV(questionIndex)}
+                      className="showToggle"
+                    >
+                      Show Answer
+                    </h5>
+                    <div id={"div" + questionIndex} className="answerElement">
+                      <>
+                        <hr />
+                        <img id="img" src={question.answer.attachment} />
+                        <h4>{question.answer.answerString}</h4>
+                        <p>- {question.answeredBy}</p>
+                      </>
+                    </div>
+                  </>
+                )}
               </div>
             );
           })}

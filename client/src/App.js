@@ -7,6 +7,7 @@ import Home from "./Components/Home";
 import UserQs from "./Components/UserQs";
 import AdminPanel from "./Components/AdminPanel";
 import Admin from "./Components/Admin";
+import Navbar from "./Components/Navbar";
 
 const App = () => {
   return (

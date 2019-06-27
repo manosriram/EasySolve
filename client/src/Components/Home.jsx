@@ -42,7 +42,7 @@ const Home = props => {
 
   return (
     <>
-      <Navbar />
+      <Navbar props={props} />
       <br />
       <br />
       <br />

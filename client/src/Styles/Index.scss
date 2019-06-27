@@ -35,6 +35,17 @@
   @include centerElementHV();
 }
 
+#backButton {
+  width: 70%;
+  height: auto;
+
+  &:hover {
+    cursor: pointer;
+    transition: 1s;
+    background: black;
+  }
+}
+
 nav {
   border-radius: 30px;
   width: 100%;

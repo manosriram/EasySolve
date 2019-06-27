@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 import { StyledInput, StyledButton } from "../Styles/StyledCom";
@@ -7,6 +7,7 @@ import Admin from "./Admin";
 import * as actionCreator from "../Store/Actions/loginAction";
 
 const AdminPanel = props => {
+  const [status, setStatus] = useState(false);
   const handleSubmit = e => {
     var data = {
       email: props.email,
@@ -14,19 +15,25 @@ const AdminPanel = props => {
     };
     props.setLoader(true);
     // props.handleSubmit(e, data);
-    if (true) {
-      props.setLoginStatus(true);
+    if (
+      data.email === "easysolve.co.in@gmail.com" &&
+      data.password === "easys"
+    ) {
+      setStatus(true);
+      // props.setLoginStatus(true);
     } else {
       props.setMessage("Wrong Information..");
     }
   };
 
-  if (props.loggedInStatus) {
+  if (status) {
     return <Admin />;
   }
 
   return (
     <>
+      <Navbar props={props} />
+      <br />
       <div id="LoginForm" onChange={e => props.handleChange(e)}>
         <h4>{props.message}</h4>
         <br />

@@ -10,7 +10,6 @@ hr {
 
 #questionArea {
   @include centerDiv();
-
   #qstn {
     border: solid;
     outline: none;
@@ -43,16 +42,20 @@ img {
     text-decoration: underline;
   }
 }
+#noQ {
+  @include centerDiv();
+}
 
 #Qs {
   @include centerDiv();
+  margin-bottom: 130px;
+  width: 70%;
+  // border: 1px solid black;
+  border-radius: 2px;
   #img {
     width: 100%;
     height: 40vh;
   }
-  margin-bottom: 170px;
-  width: 70%;
-  border: 1px solid black;
 }
 
 #qtext {
@@ -62,6 +65,7 @@ img {
 }
 
 input[type="file"] {
+  @include centerDiv();
   &:hover {
     cursor: pointer;
   }
@@ -81,6 +85,7 @@ input[type="file"] {
   }
 
   #questionArea {
+    @include centerDiv();
     #qstn {
       @include centerDiv();
       width: 100%;
@@ -89,7 +94,7 @@ input[type="file"] {
 
   input[type="file"] {
     border: 1px solid black;
-
+    @include centerDiv();
     &:hover {
       cursor: pointer;
     }

@@ -5,11 +5,11 @@ const multer = require("multer");
 const path = require("path");
 
 router.post("/answerQuestion", async (req, res) => {
-  const { answer, user, questionID } = req.body;
+  const { answer, username, questionID } = req.body;
   if (!req.files) {
     const an = await Question.findOne({ _id: questionID });
     an.isAnswered = true;
-    an.answeredBy = user;
+    an.answeredBy = username;
     an.answer = {
       answerString: answer
     };
@@ -26,7 +26,7 @@ router.post("/answerQuestion", async (req, res) => {
 
     const qs = await Question.findOne({ _id: questionID });
     qs.isAnswered = true;
-    qs.answeredBy = user;
+    qs.answeredBy = username;
     qs.answer = {
       answerString: answer,
       attachment: `/public/answers/${newFileName}`

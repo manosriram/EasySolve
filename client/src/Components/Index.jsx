@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "../Styles/Index.scss";
 import Navbar from "./Navbar";
 import { connect } from "react-redux";
@@ -22,7 +22,7 @@ const Index = props => {
   } else {
     return (
       <div id="intro">
-        <Navbar />
+        <Navbar props={props} />
         <h1>Easy Solve !</h1>
         <br />
         <h3>You Ask, We Answer !</h3>

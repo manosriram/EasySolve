@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
 const Cookie = require("js-cookie");
 
 const Navbar = props => {
   const isLoggedIn = Cookie.get("auth_t") ? true : false;
+
+  const goBack = () => {
+    if (props.props.history) props.props.history.goBack();
+  };
 
   const Logout = () => {
     Cookie.remove("auth_t");
@@ -13,6 +17,14 @@ const Navbar = props => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
+      <ul className="navbar-nav">
+        <img
+          src="https://img.icons8.com/color/48/000000/back.png"
+          id="backButton"
+          onClick={goBack}
+        />
+        {/* <img src="https://img.icons8.com/flat_round/64/000000/back.png" /> */}
+      </ul>
       <Link className="navbar-brand" to="/">
         HOME
       </Link>

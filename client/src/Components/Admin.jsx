@@ -1,3 +1,4 @@
+import { StyledButton } from "../Styles/StyledCom";
 import "../Styles/Home.scss";
 import Answer from "./Answer";
 import React, { useEffect, useState } from "react";
@@ -5,7 +6,6 @@ import Navbar from "./Navbar";
 import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { setLoader } from "../Store/Actions/loginAction";
-import { StyledInput, StyledButton } from "../Styles/StyledCom";
 const moment = require("moment");
 
 const Admin = props => {
@@ -44,7 +44,7 @@ const Admin = props => {
   var cn = 0;
   return (
     <>
-      <Navbar />
+      <Navbar props={props} />
       <br />
       <br />
       <br />
@@ -69,7 +69,9 @@ const Admin = props => {
               <img id="img" src={question.attachment} alt="No Image added." />
               <br />
               <br />
-              <button onClick={() => handlePopUp(question)}>Answer</button>
+              <StyledButton onClick={() => handlePopUp(question)}>
+                Answer
+              </StyledButton>
             </div>
           );
         }

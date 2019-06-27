@@ -96,7 +96,7 @@ const Register = props => {
 
   return (
     <div id="intro">
-      <Navbar />
+      <Navbar props={props} />
       <br />
       <br />
       <h3>{props.message}</h3>

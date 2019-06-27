@@ -15,9 +15,17 @@ const Answer = ({ question, id, attachment }, props) => {
         : originalString;
   }, []);
 
-  const [file, setFile] = useState("");
   const [userData, setUserData] = useState({});
   const [message, setMessage] = useState("");
+
+  const confirmChecks = e => {
+    e.preventDefault();
+    if (userData.answer.length < 7) {
+      setMessage("Answer too small, Min. 6 chars");
+    } else if (userData.username.length < 4) {
+      setMessage("Username too small, Min. 4 chars");
+    } else preSubmitHandler(e);
+  };
 
   const submitData = async (e, formData) => {
     const resp = await axios.post("/file/answerQuestion", formData);
@@ -56,9 +64,10 @@ const Answer = ({ question, id, attachment }, props) => {
 
   return (
     <>
-      <Navbar />
+      <Navbar props={props} />
       <div id="Qs">
         <h4>{message}</h4>
+        <br />
         <div id="qtext">
           <h5 onClick={e => (e.target.innerHTML = originalString)}>
             {modifiedString}
@@ -91,10 +100,11 @@ const Answer = ({ question, id, attachment }, props) => {
             borderC="transparent"
             onChange={handleChange}
             placeholder="Your Name.."
+            autoComplete="off"
           />
           <br />
           <br />
-          <StyledButton id="ask" onClick={preSubmitHandler}>
+          <StyledButton id="ask" onClick={e => confirmChecks(e)}>
             Submit
           </StyledButton>
         </form>

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/loginAction";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
-import Home from "./Home";
 import "../Styles/Auth.scss";
 
 const Login = props => {
@@ -49,7 +48,7 @@ const Login = props => {
 
   return (
     <div id="intro">
-      <Navbar />
+      <Navbar props={props} />
       <br />
       <br />
       <h3>{props.message}</h3>
