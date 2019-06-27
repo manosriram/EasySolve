@@ -1,7 +1,7 @@
 import ImageZoom from "react-medium-image-zoom";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { connect } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { postHandler } from "../Headers";
 import "../Styles/Home.scss";
@@ -9,6 +9,7 @@ import { setLoader } from "../Store/Actions/loginAction";
 const moment = require("moment");
 
 const UserQs = props => {
+  const [displayShow, setDisplayShow] = useState("Show Answer.");
   const getQs = async email => {
     const resp = await fetch("/file/getUserQuestions", {
       method: postHandler.method,
@@ -34,8 +35,15 @@ const UserQs = props => {
     getQs();
   }, []);
 
-  const toggleV = () => {
+  const toggleV = divIndex => {
     props.toggleVisibility();
+    let els = document.querySelector(`#div${divIndex}`);
+    let secR = document.querySelector(`#msg${divIndex}`);
+    !props.toggleV
+      ? (els.style.display = "block") &&
+        (secR.style.display = "block") &&
+        (secR.innerHTML = "Show Less")
+      : (els.style.display = "none") && (secR.innerHTML = "Show Answer");
   };
 
   if (props.isSpinning) {
@@ -55,6 +63,7 @@ const UserQs = props => {
         <br />
         <div>
           {props.questions.map((question, questionIndex) => {
+            let name = `div${questionIndex}`;
             var ago = moment(question.askedOn).fromNow();
             var originalString = question.question;
             var modifiedString =
@@ -86,31 +95,29 @@ const UserQs = props => {
                 <br />
                 <br />
                 <br />
-                {!props.toggleV && (
-                  <h5 onClick={() => props.toggleVisibility()}>Show Answer.</h5>
-                )}
-                {props.toggleV && (
-                  <div id="answerElement">
-                    {question.isAnswered && (
-                      <>
-                        <hr />
-                        <img id="img" src={question.answer.attachment} />
-                        <h4>{question.answer.answerString}</h4>
-                        <p onClick={() => props.toggleVisibility()}>
-                          Show less.
-                        </p>
-                      </>
-                    )}
-                    {!question.isAnswered && (
-                      <>
-                        <h4>Not yet answered.</h4>
-                        <p onClick={() => props.toggleVisibility()}>
-                          Show less.
-                        </p>
-                      </>
-                    )}
-                  </div>
-                )}
+                {/* {props.toggleV && ( */}
+                <h5
+                  id={"msg" + questionIndex}
+                  onClick={() => toggleV(questionIndex)}
+                  className="showToggle"
+                >
+                  Show Answer
+                </h5>
+                <div id={"div" + questionIndex} className="answerElement">
+                  {question.isAnswered && (
+                    <>
+                      <hr />
+                      <img id="img" src={question.answer.attachment} />
+                      <h4>{question.answer.answerString}</h4>
+                    </>
+                  )}
+                  {!question.isAnswered && (
+                    <>
+                      <h4>Not yet answered.</h4>
+                    </>
+                  )}
+                </div>
+                {/* )} */}
               </div>
             );
           })}

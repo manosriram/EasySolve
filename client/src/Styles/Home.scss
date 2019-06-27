@@ -31,6 +31,19 @@ img {
   border-radius: 5px;
 }
 
+.answerElement {
+  display: none;
+}
+
+.showToggle {
+  color: darkcyan;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
 #Qs {
   @include centerDiv();
   #img {
