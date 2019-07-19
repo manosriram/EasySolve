@@ -12,6 +12,7 @@ const Navbar = props => {
 
   const Logout = () => {
     Cookie.remove("auth_t");
+    Cookie.remove("adTk");
     window.location = "/";
   };
 
@@ -75,6 +76,11 @@ const Navbar = props => {
             <li className="nav-item active">
               <Link className="navbar-brand" to="/register">
                 Register
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="navbar-brand" to="/adminPanel">
+                Admin Panel
               </Link>
             </li>
           </ul>

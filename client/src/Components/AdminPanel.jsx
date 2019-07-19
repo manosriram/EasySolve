@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 import { StyledInput, StyledButton } from "../Styles/StyledCom";
 import { connect } from "react-redux";
 import Admin from "./Admin";
 import * as actionCreator from "../Store/Actions/loginAction";
+const Cookie = require("js-cookie");
 
 const AdminPanel = props => {
   const [status, setStatus] = useState(false);
+
+  useEffect(() => {
+    props.setMessage("");
+    if (Cookie.get("adTk")) {
+      setStatus(true);
+    }
+  }, []);
+
   const handleSubmit = e => {
     var data = {
       email: props.email,
@@ -17,8 +26,9 @@ const AdminPanel = props => {
     // props.handleSubmit(e, data);
     if (
       data.email === "easysolve.co.in@gmail.com" &&
-      data.password === "easys"
+      data.password === "Easysolve@2019"
     ) {
+      Cookie.set("adTk", true);
       setStatus(true);
       // props.setLoginStatus(true);
     } else {

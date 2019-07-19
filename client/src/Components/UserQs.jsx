@@ -111,7 +111,10 @@ const UserQs = props => {
                         <hr />
                         <img id="img" src={question.answer.attachment} />
                         <h4>{question.answer.answerString}</h4>
-                        <p>- {question.answeredBy}</p>
+                        <p>
+                          Answered by : <strong>{question.answeredBy}</strong>
+                        </p>
+                        <hr />
                       </>
                     </div>
                   </>

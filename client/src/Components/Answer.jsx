@@ -25,6 +25,8 @@ const Answer = ({ question, id, attachment }, props) => {
     } else if (userData.username.length < 4) {
       setMessage("Username too small, Min. 4 chars");
     } else preSubmitHandler(e);
+
+    document.location = "/adminPanel";
   };
 
   const submitData = async (e, formData) => {
