@@ -9,6 +9,7 @@ const Cookie = require("js-cookie");
 
 const AdminPanel = props => {
   const [status, setStatus] = useState(false);
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     props.setMessage("");
@@ -32,6 +33,7 @@ const AdminPanel = props => {
       body: JSON.stringify({ email: data.email, password: data.password })
     });
     const respData = await resp.json();
+    setMsg(respData.errMessage);
     console.log(respData);
   };
 
@@ -56,8 +58,11 @@ const AdminPanel = props => {
         <br />
         <br />
       </div> */}
-      <h4 id="LoginForm">Register Admin.</h4>
+      <div id="midMSG">
+        <h3>{msg}</h3>
+      </div>
       <div id="LoginForm" onChange={e => props.handleChange(e)}>
+        <p>Register here..</p>
         <h4>{props.message}</h4>
         <br />
         <StyledInput type="email" placeholder="Email Address" name="email" />
