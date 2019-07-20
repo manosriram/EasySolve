@@ -69,21 +69,21 @@ router.post("/addQuestion", (req, res) => {
   const { question, user } = req.body;
 
   fl.mv(`${__dirname}/../public/questions/${newFileName}`, err => {
-    if (!err) console.log(`Uploaded ${newFileName}`);
-    else return res.json({ success: false, err });
-  });
-
-  const qs = new Question({
-    askedBy: user,
-    question,
-    attachment: `/public/questions/${newFileName}`,
-    isAnswered: false
-  });
-  qs.save();
-  return res.json({
-    success: true,
-    loadedFileName: newFileName,
-    message: "File Uploaded."
+    if (!err) {
+      const qs = new Question({
+        askedBy: user,
+        question,
+        attachment: `/public/questions/${newFileName}`,
+        isAnswered: false
+      });
+      qs.save();
+      console.log(`Uploaded ${newFileName}`);
+      return res.json({
+        success: true,
+        loadedFileName: newFileName,
+        message: "File Uploaded."
+      });
+    } else return res.json({ success: false, err });
   });
 });
 
