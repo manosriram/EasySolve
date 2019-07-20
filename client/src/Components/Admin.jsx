@@ -47,7 +47,6 @@ const Admin = props => {
       <Navbar props={props} />
       <br />
       <br />
-      <br />
       {props.questions.map((question, questionIndex) => {
         var ago = moment(question.askedOn).fromNow();
         var originalString = question.question;
@@ -64,6 +63,7 @@ const Admin = props => {
                 <h5 onClick={e => (e.target.innerHTML = originalString)}>
                   {modifiedString}
                 </h5>
+                <p>( asked by {question.askedBy} )</p>
               </div>
               <p>({ago})</p>
               <img id="img" src={question.attachment} alt="No Image added." />

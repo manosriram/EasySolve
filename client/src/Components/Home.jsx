@@ -7,10 +7,11 @@ import { StyledButton, StyledInput } from "../Styles/StyledCom";
 import "../Styles/Home.scss";
 
 const Home = props => {
+  const [username, setUsername] = React.useState("");
   const getStatus = async () => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
-    props.setUser(data.email);
+    setUsername(data.username);
   };
   useEffect(() => {
     getStatus();
@@ -22,7 +23,7 @@ const Home = props => {
     if (props.question && !props.attachment) {
       let formData = new FormData();
       formData.append("question", props.question);
-      formData.append("user", props.user);
+      formData.append("user", username);
       props.submitData(e, formData);
       return;
     }
@@ -30,7 +31,7 @@ const Home = props => {
       let formData = new FormData();
       formData.append("imageFile", props.attachment[0]);
       formData.append("question", props.question);
-      formData.append("user", props.user);
+      formData.append("user", username);
       formData.set("enctype", "multipart/form-data");
       props.submitData(e, formData);
       return;
@@ -42,11 +43,13 @@ const Home = props => {
 
   return (
     <>
-      <Navbar props={props} />
-      <br />
+      <Navbar props={props} username={username} />
       <br />
       <br />
       <div id="message">
+        <h2>Welcome {username}</h2>
+        <br />
+        <br />
         <h3>{props.message}</h3>
       </div>
       <form id="questionArea">

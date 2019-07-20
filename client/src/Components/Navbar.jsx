@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
 const Cookie = require("js-cookie");

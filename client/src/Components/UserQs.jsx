@@ -9,11 +9,11 @@ import { setLoader } from "../Store/Actions/loginAction";
 const moment = require("moment");
 
 const UserQs = props => {
-  const getQs = async email => {
+  const getQs = async username => {
     const resp = await fetch("/file/getUserQuestions", {
       method: postHandler.method,
       headers: postHandler.headers,
-      body: JSON.stringify({ user: email })
+      body: JSON.stringify({ user: username })
     });
     const data = await resp.json();
     props.setQuestions(data);
@@ -24,7 +24,7 @@ const UserQs = props => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
     props.setUser(data.email);
-    getQs(data.email);
+    getQs(data.username);
     props.setLoader(false);
   };
 
@@ -58,8 +58,8 @@ const UserQs = props => {
         <Navbar props={props} />
         <br />
         <br />
-        <br />
         <div>
+          {props.questions.length === 0 && <h4 id="Qs">No Questions yet.</h4>}
           {props.questions.map((question, questionIndex) => {
             var ago = moment(question.askedOn).fromNow();
             var originalString = question.question;
@@ -97,7 +97,7 @@ const UserQs = props => {
                     <h4>Not yet answered.</h4>
                   </>
                 )}
-                {question.answer && (
+                {question.isAnswered && (
                   <>
                     <h5
                       id={"msg" + questionIndex}

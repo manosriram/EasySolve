@@ -17,23 +17,22 @@ const AdminPanel = props => {
     }
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     var data = {
       email: props.email,
       password: props.password
     };
     props.setLoader(true);
-    // props.handleSubmit(e, data);
-    if (
-      data.email === "easysolve.co.in@gmail.com" &&
-      data.password === "Easysolve@2019"
-    ) {
-      Cookie.set("adTk", true);
-      setStatus(true);
-      // props.setLoginStatus(true);
-    } else {
-      props.setMessage("Wrong Information..");
-    }
+    const resp = await fetch("/auth/adminRegister", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: data.email, password: data.password })
+    });
+    const respData = await resp.json();
+    console.log(respData);
   };
 
   if (status) {
@@ -44,7 +43,7 @@ const AdminPanel = props => {
     <>
       <Navbar props={props} />
       <br />
-      <div id="LoginForm" onChange={e => props.handleChange(e)}>
+      {/* <div id="LoginForm" onChange={e => props.handleChange(e)}>
         <h4>{props.message}</h4>
         <br />
         <StyledInput type="email" placeholder="Email Address" name="email" />
@@ -54,6 +53,20 @@ const AdminPanel = props => {
         <br />
         <br />
         <StyledButton onClick={handleSubmit}>Login</StyledButton>
+        <br />
+        <br />
+      </div> */}
+      <h4 id="LoginForm">Register Admin.</h4>
+      <div id="LoginForm" onChange={e => props.handleChange(e)}>
+        <h4>{props.message}</h4>
+        <br />
+        <StyledInput type="email" placeholder="Email Address" name="email" />
+        <br />
+        <br />
+        <StyledInput type="password" placeholder="Password" name="password" />
+        <br />
+        <br />
+        <StyledButton onClick={handleSubmit}>Register</StyledButton>
         <br />
         <br />
       </div>

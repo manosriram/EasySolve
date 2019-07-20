@@ -4,6 +4,71 @@ const User = require("../Models/UserModel");
 const bcrypt = require("bcryptjs");
 const jsonwt = require("jsonwebtoken");
 const key = require("../Setup/url").secret;
+const Admin = require("../Models/AdminModel");
+
+router.post("/adminLogin", async (req, res) => {
+  const { email, password } = req.body;
+
+  const Admin_S = await Admin.findOne({ email });
+
+  if (!Admin_S) {
+    return res.json({ success: false, errMessage: "Admin not found." });
+  } else {
+    const payload = {
+      email: Admin_S.email,
+      password: Admin_S.password
+    };
+
+    bcrypt
+      .compare(password, Admin_S.password)
+      .then(isCorrect => {
+        if (!isCorrect) {
+          return res.json({
+            success: false,
+            errMessage: "Password Incorrect."
+          });
+        } else {
+          jsonwt.sign(payload, key, { expiresIn: 9000000 }, (err, token) => {
+            res.cookie("admin_t_auth", token, { maxAge: 90000000 });
+            return res.json({ success: true, errMessage: "Logged In..." });
+          });
+        }
+      })
+      .catch(err => console.log(err));
+  }
+});
+
+router.post("/adminRegister", (req, res) => {
+  const { email, password } = req.body;
+  console.log(email);
+  console.log(password);
+
+  if (!email || !password)
+    return res.json({ success: false, errMessage: "Fill all fields." });
+
+  if (password.length < 4)
+    return res.json({ success: false, errMessage: "Password too short !" });
+
+  Admin.findOne({ email })
+    .then(adm => {
+      if (adm) {
+        return res.json({ success: false, errMessage: "Admin Already exists" });
+      }
+      let newAdmin = new Admin({
+        email,
+        password
+      });
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newAdmin.password, salt, (err, hash) => {
+          newAdmin.password = hash;
+          newAdmin.save().catch(err => console.log(err));
+        });
+      });
+      return res.json({ success: true, errMessage: "Admin registered." });
+    })
+    .catch(err => console.log(err));
+});
 
 router.get("/isLoggedIn", async (req, res) => {
   jsonwt.verify(req.cookies.auth_t, key, (err, user) => {
