@@ -5,7 +5,7 @@
 
 hr {
   background: black;
-  height: 5px;
+  height: 3px;
 }
 
 #questionArea {
@@ -46,15 +46,27 @@ img {
   @include centerDiv();
 }
 
+#lgot {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5vh;
+  font-size: 3.5vh;
+  background-color: red;
+  color: white;
+  text-align: center;
+}
+
 #Qs {
   @include centerDiv();
-  margin-bottom: 130px;
+  margin-bottom: 100px;
   width: 70%;
   // border: 1px solid black;
   border-radius: 2px;
   #img {
     width: 100%;
-    height: 40vh;
+    height: 35vh;
   }
 }
 
@@ -73,7 +85,7 @@ input[type="file"] {
 
 #pending {
   @include centerDiv();
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 @media only screen and (max-width: 768px) {

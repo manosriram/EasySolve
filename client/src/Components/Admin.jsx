@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { setLoader } from "../Store/Actions/loginAction";
 const moment = require("moment");
+const Cookie = require("js-cookie");
 
 const Admin = props => {
   const [q, setQ] = useState(undefined);
@@ -21,6 +22,11 @@ const Admin = props => {
   useEffect(() => {
     getQs();
   }, []);
+
+  const adminLogout = () => {
+    Cookie.remove("admin_t_auth");
+    window.location = "/adminPanel";
+  };
 
   const handlePopUp = question => {
     setQ({
@@ -46,7 +52,6 @@ const Admin = props => {
     <>
       <Navbar props={props} />
       <br />
-      <br />
       {props.questions.map((question, questionIndex) => {
         var ago = moment(question.askedOn).fromNow();
         var originalString = question.question;
@@ -66,7 +71,9 @@ const Admin = props => {
                 <p>( asked by {question.askedBy} )</p>
               </div>
               <p>({ago})</p>
-              <img id="img" src={question.attachment} alt="No Image added." />
+              {question.attachment && (
+                <img id="img" src={question.attachment} alt="No Image added." />
+              )}
               <br />
               <br />
               <StyledButton onClick={() => handlePopUp(question)}>
@@ -76,7 +83,19 @@ const Admin = props => {
           );
         }
       })}
-      <div id="pending">{!cn && <h5>No pending Questions.</h5>}</div>
+      <div id="pending">
+        {!cn && (
+          <>
+            <h5>No pending Questions.</h5>
+            <a href="#" onClick={adminLogout}>
+              Logout
+            </a>
+          </>
+        )}
+        <a href="#" id="lgot" onClick={adminLogout}>
+          Admin Logout
+        </a>
+      </div>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
+import { StyledButton } from "../Styles/StyledCom";
 const Cookie = require("js-cookie");
 
 const Navbar = props => {

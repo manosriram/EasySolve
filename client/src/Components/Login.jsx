@@ -51,8 +51,9 @@ const Login = props => {
       <Navbar props={props} />
       <br />
       <br />
-      <h3>{props.message}</h3>
+      <h3>User Login</h3>
       <div id="LoginForm" onChange={handleChange}>
+        <h3>{props.message}</h3>
         <br />
         <StyledInput type="email" placeholder="Email Address" name="email" />
         <br />
