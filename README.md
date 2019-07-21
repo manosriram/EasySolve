@@ -2,8 +2,7 @@
 
 
 ```
-
 Ask Questions and get the Answers 🕶.
-easysolve.herokuapp.com
-
 ```
+
+<strong>[Easy Solve](easysolve.herokuapp.com)</strong>
