@@ -44,15 +44,15 @@ const Answer = ({ question, id, attachment }, props) => {
 
   const preSubmitHandler = e => {
     e.preventDefault();
+    let formData = new FormData();
+    formData.set("id", "fd");
     if (userData.answer && !userData.attachment) {
-      let formData = new FormData();
       formData.append("answer", userData.answer);
       formData.append("username", userData.username);
       formData.append("questionID", id);
 
       submitData(e, formData);
     } else if (!userData.answer && userData.attachment) {
-      let formData = new FormData();
       formData.append("image", userData.attachment);
       formData.append("username", userData.username);
       formData.append("questionID", id);
@@ -60,7 +60,6 @@ const Answer = ({ question, id, attachment }, props) => {
 
       submitData(e, formData);
     } else if (userData.attachment && userData.answer) {
-      let formData = new FormData();
       formData.append("image", userData.attachment);
       formData.append("answer", userData.answer);
       formData.append("username", userData.username);

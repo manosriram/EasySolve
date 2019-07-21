@@ -19,6 +19,8 @@ const Admin = props => {
   const [postsPerPage] = useState(3);
   const [showAns, setShowAns] = useState(false);
   const [qid, set_q_id] = useState(undefined);
+  const [adEm, setAdm] = useState("");
+
   const getQs = async () => {
     const resp = await fetch("/file/getAllQuestions");
     const data = await resp.json();
@@ -27,7 +29,15 @@ const Admin = props => {
   };
 
   useEffect(() => {
+    props.setLoader(true);
+    const fetchAdmin = async () => {
+      const resp = await fetch("/auth/getAdminDet");
+      const data = await resp.json();
+      setAdm(data.email);
+    };
+    fetchAdmin();
     getQs();
+    props.setLoader(false);
   }, []);
 
   const showAnswers = _id => {
@@ -70,10 +80,24 @@ const Admin = props => {
     return <Answers qID={qid} />;
   }
 
+  if (props.isSpinning) {
+    return (
+      <div className="d-flex justify-content-center" id="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Navbar props={props} />
       <br />
+      <div>
+        <h5 id="pending">Welcome {adEm}</h5>
+      </div>
+      <hr />
       <div id="pending">
         {props.questions.length === 0 && <h5>No pending Questions.</h5>}
       </div>

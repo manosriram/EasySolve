@@ -5,12 +5,17 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { postHandler } from "../Headers";
 import "../Styles/Home.scss";
+import { Link } from "react-router-dom";
 import { setLoader } from "../Store/Actions/loginAction";
+import Answers from "./Answers";
 const moment = require("moment");
 
 const UserQs = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(3);
+  const [showAns, setShowAns] = useState(false);
+  const [qid, set_q_id] = useState("");
+
   const getQs = async username => {
     const resp = await fetch("/file/getUserQuestions", {
       method: postHandler.method,
@@ -41,6 +46,11 @@ const UserQs = props => {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
+  const showAnswers = _id => {
+    setShowAns(true);
+    set_q_id(_id);
+  };
+
   const toggleV = divIndex => {
     props.toggleVisibility();
     let els = document.querySelector(`#div${divIndex}`);
@@ -51,6 +61,10 @@ const UserQs = props => {
         (secR.innerHTML = "Show Less")
       : (els.style.display = "none") && (secR.innerHTML = "Show Answer");
   };
+
+  if (showAns) {
+    return <Answers qID={qid} />;
+  }
 
   if (props.isSpinning) {
     return (
@@ -121,40 +135,9 @@ const UserQs = props => {
                 )}
                 {question.isAnswered && (
                   <>
-                    <h5
-                      id={"msg" + questionIndex}
-                      onClick={() => toggleV(questionIndex)}
-                      className="showToggle"
-                    >
-                      Show Answer
-                    </h5>
-                    <div id={"div" + questionIndex} className="answerElement">
-                      <>
-                        <hr />
-                        {question.answer.attachment && (
-                          <>
-                            <img id="img" src={question.answer.attachment} />
-                            <br />
-                            <a
-                              href="#"
-                              onClick={() =>
-                                window.open(question.answer.attachment)
-                              }
-                            >
-                              Download Image
-                            </a>
-                          </>
-                        )}
-                        <br />
-                        <div class="alert alert-info" role="alert">
-                          <h4>{question.answer.answerString}</h4>
-                        </div>
-                        <p>
-                          Answered by : <strong>{question.answeredBy}</strong>
-                        </p>
-                        <hr />
-                      </>
-                    </div>
+                    <Link onClick={() => showAnswers(question._id)}>
+                      Show Answers
+                    </Link>
                   </>
                 )}
               </div>

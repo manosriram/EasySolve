@@ -6,6 +6,16 @@ const jsonwt = require("jsonwebtoken");
 const key = require("../Setup/url").secret;
 const Admin = require("../Models/AdminModel");
 
+router.get("/getAdminDet", (req, res) => {
+  jsonwt.verify(req.cookies.admin_t_auth, key, (err, user) => {
+    if (user) {
+      return res.json({
+        email: user.email
+      });
+    }
+  });
+});
+
 router.post("/adminLogin", async (req, res) => {
   const { email, password } = req.body;
 
@@ -30,7 +40,10 @@ router.post("/adminLogin", async (req, res) => {
         } else {
           jsonwt.sign(payload, key, { expiresIn: 9000000 }, (err, token) => {
             res.cookie("admin_t_auth", token, { maxAge: 90000000 });
-            return res.json({ success: true, errMessage: "Logged In..." });
+            return res.json({
+              success: true,
+              errMessage: "Logged In..."
+            });
           });
         }
       })

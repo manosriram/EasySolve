@@ -28,17 +28,24 @@ const Answers = props => {
     <>
       <Navbar />
       {answer.map((ans, ansInd) => {
+        var originalString = ans.answerString;
+        var modifiedString =
+          originalString.length > 20
+            ? originalString.substr(0, 20) + "....."
+            : originalString;
+        var temp = modifiedString;
         return (
           <div id="Qs">
+            <h5>
+              Answered By <strong>{ans.answeredBy}</strong>
+            </h5>
+            <br />
+            <img src={ans.attachment} id="img" alt="No Image added." />
             <br />
             <div class="alert alert-info" role="alert">
-              <h5>
-                {ans.answerString} <strong>(Answer by {ans.answeredBy})</strong>{" "}
-              </h5>
+              <h5>{ans.answerString}</h5>
             </div>
-            <br />
-            <br />
-            {ans.attachment && <img src={ans.attachment} id="img" />}
+            <hr />
           </div>
         );
       })}
