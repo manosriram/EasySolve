@@ -100,6 +100,7 @@ const Admin = props => {
               >
                 <div className="alert alert-info" role="alert">
                   <h5 id="mdfd">{temp}</h5>
+                  <p>Asked by ({question.askedBy})</p>
                 </div>
               </h5>
             </div>

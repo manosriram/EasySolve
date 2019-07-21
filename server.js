@@ -9,7 +9,7 @@ const fileUpload = require("express-fileupload");
 const path = require("path");
 
 app.use(fileUpload());
-app.use("/public", express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname + "client/build")));
 app.use(express.json());
 app.use(cookieparser());
 app.use("/auth", require("./Routes/Auth"));
