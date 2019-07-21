@@ -7,7 +7,7 @@ import Home from "./Components/Home";
 import UserQs from "./Components/UserQs";
 import AdminPanel from "./Components/AdminPanel";
 import Admin from "./Components/Admin";
-import Navbar from "./Components/Navbar";
+import Answers from "./Components/Answers";
 
 const App = () => {
   return (
@@ -20,6 +20,7 @@ const App = () => {
         <Route exact path="/home" component={Home} />
         <Route exact path="/userQs" component={UserQs} />
         <Route exact path="/adminPanel" component={AdminPanel} />
+        <Route exact path="/answers" component={Answers} />
         {/* <Route exact path="/admin" component={Admin} /> */}
       </BrowserRouter>
     </>

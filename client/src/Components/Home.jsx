@@ -14,21 +14,20 @@ const Home = props => {
     setUsername(data.username);
   };
   useEffect(() => {
+    props.rstP();
     props.setMessage("");
     getStatus();
   }, []);
 
   const preSubmitHandler = e => {
     e.preventDefault();
-
+    props.setLoader(true);
     if (props.question && !props.attachment) {
       let formData = new FormData();
       formData.append("question", props.question);
       formData.append("user", username);
       props.submitData(e, formData);
-      return;
-    }
-    if (props.attachment || props.question) {
+    } else if (props.attachment || props.question) {
       let formData = new FormData();
       formData.append("image", props.attachment[0]);
       formData.append("question", props.question);
@@ -36,12 +35,22 @@ const Home = props => {
       formData.set("method", "post");
       formData.append("enctype", "multipart/form-data");
       props.submitData(e, formData);
-      return;
     } else {
       props.setMessage("Fill all the fields..");
-      return;
     }
+    props.setLoader(false);
+    return;
   };
+
+  if (props.isSpinning) {
+    return (
+      <div className="d-flex justify-content-center" id="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -97,7 +106,8 @@ const mapDispatchToProps = dispatch => {
     handleFileChange: e => dispatch(actionCreator.handleFileChange(e)),
     submitData: (e, data) => dispatch(actionCreator.submitData(e, data)),
     setUser: user => dispatch(actionCreator.setUser(user)),
-    setMessage: msg => dispatch(actionCreator.setMessage(msg))
+    setMessage: msg => dispatch(actionCreator.setMessage(msg)),
+    rstP: () => dispatch(actionCreator.resetProps())
   };
 };
 

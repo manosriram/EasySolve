@@ -7,6 +7,8 @@ import Pagination from "./Pagination";
 import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { setLoader } from "../Store/Actions/loginAction";
+import { Link } from "react-router-dom";
+import Answers from "./Answers";
 const moment = require("moment");
 const Cookie = require("js-cookie");
 
@@ -15,8 +17,10 @@ const Admin = props => {
   const [Sans, setSA] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(3);
+  const [showAns, setShowAns] = useState(false);
+  const [qid, set_q_id] = useState(undefined);
   const getQs = async () => {
-    const resp = await fetch("/file/getNotAnswered");
+    const resp = await fetch("/file/getAllQuestions");
     const data = await resp.json();
     props.setQuestions(data);
     props.setLoader(false);
@@ -25,6 +29,11 @@ const Admin = props => {
   useEffect(() => {
     getQs();
   }, []);
+
+  const showAnswers = _id => {
+    setShowAns(true);
+    set_q_id(_id);
+  };
 
   const adminLogout = () => {
     Cookie.remove("admin_t_auth");
@@ -56,7 +65,11 @@ const Admin = props => {
       />
     );
   }
-  var cn = 0;
+
+  if (showAns) {
+    return <Answers qID={qid} />;
+  }
+
   return (
     <>
       <Navbar props={props} />
@@ -72,11 +85,10 @@ const Admin = props => {
           originalString.length > 20
             ? originalString.substr(0, 20) + "....."
             : originalString;
-        //(e.target.innerHTML = originalString)
         let temp = modifiedString;
         return (
-          <div id="Qs">
-            <div id="qtext">
+          <div id="Qs" key={questionIndex}>
+            <div id="qtext" key={questionIndex}>
               <h5
                 onClick={e => {
                   e.target.innerHTML === originalString
@@ -86,7 +98,7 @@ const Admin = props => {
                   temp = e.target.innerHTML;
                 }}
               >
-                <div class="alert alert-info" role="alert">
+                <div className="alert alert-info" role="alert">
                   <h5 id="mdfd">{temp}</h5>
                 </div>
               </h5>
@@ -104,10 +116,18 @@ const Admin = props => {
                 <a href="#" onClick={() => window.open(question.attachment)}>
                   Download Image
                 </a>
-                <br />
-                <br />
+                &nbsp;&nbsp;&nbsp;
               </>
             )}
+            {question.isAnswered && (
+              <>
+                <Link onClick={() => showAnswers(question._id)}>
+                  Show Answers
+                </Link>
+              </>
+            )}
+            <br />
+            <br />
             <StyledButton onClick={() => handlePopUp(question)}>
               Answer
             </StyledButton>

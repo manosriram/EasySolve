@@ -5,12 +5,8 @@ const QuestionSchema = new Schema({
   askedBy: {
     type: String
   },
-  answeredBy: {
-    type: String
-  },
   question: {
-    type: String,
-    required: true
+    type: String
   },
   attachment: {
     type: String
@@ -23,7 +19,13 @@ const QuestionSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  answer: { answerString: { type: String }, attachment: { type: String } }
+  answer: [
+    {
+      answeredBy: { type: String },
+      answerString: { type: String },
+      attachment: { type: String }
+    }
+  ]
 });
 
 module.exports = Question = mongoose.model("Questions", QuestionSchema);

@@ -15,10 +15,10 @@ router.post("/answerQuestion", async (req, res) => {
   if (!req.files) {
     const an = await Question.findOne({ _id: questionID });
     an.isAnswered = true;
-    an.answeredBy = username;
-    an.answer = {
+    an.answer.push({
+      answeredBy: username,
       answerString: answer
-    };
+    });
     an.save();
     return res.json({ success: true, message: "Answer submitted." });
   } else {
@@ -37,18 +37,24 @@ router.post("/answerQuestion", async (req, res) => {
       } else {
         const qs = await Question.findOne({ _id: questionID });
         qs.isAnswered = true;
-        qs.answeredBy = username;
-        qs.answer = {
+        qs.answer.push({
+          answeredBy: username,
           answerString: answer,
           attachment: `https://easysolve.s3.ap-south-1.amazonaws.com/${
             params.Key
           }`
-        };
+        });
         qs.save();
         return res.json({ success: true, message: "Answer submitted." });
       }
     });
   }
+});
+
+router.post("/getAllAnswers", async (req, res) => {
+  const answ = await Question.findOne({ _id: req.body.qID });
+  if (!answ) return res.json({ success: false, message: "No Answers yet." });
+  return res.json({ success: true, answers: answ.answer.reverse() });
 });
 
 router.get("/getNotAnswered", async (req, res) => {
@@ -62,7 +68,7 @@ router.get("/getNotAnswered", async (req, res) => {
 router.get("/getAllQuestions", async (req, res) => {
   Question.find()
     .then(questions => {
-      return res.json({ questions });
+      return res.json({ questions: questions.reverse() });
     })
     .catch(err => console.log(err));
 });

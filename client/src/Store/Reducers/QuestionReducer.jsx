@@ -6,7 +6,8 @@ const initState = {
   questions: [],
   isSpinning: false,
   answerQuestion: false,
-  toggleV: false
+  toggleV: false,
+  current_ID: ""
 };
 
 const QuestionReducer = (state = initState, action) => {
@@ -49,6 +50,12 @@ const QuestionReducer = (state = initState, action) => {
     return {
       ...state,
       toggleV: !state.toggleV
+    };
+  } else if (action.type === "RST") {
+    return {
+      ...state,
+      attachment: null,
+      question: ""
     };
   }
 

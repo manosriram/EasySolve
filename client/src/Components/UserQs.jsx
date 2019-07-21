@@ -96,19 +96,24 @@ const UserQs = props => {
                 </div>
                 <p>({ago})</p>
                 {question.attachment && (
-                  <img
-                    id="img"
-                    src={question.attachment}
-                    usemap="m1"
-                    alt="No Image added."
-                  />
+                  <>
+                    <img
+                      id="img"
+                      src={question.attachment}
+                      usemap="m1"
+                      alt="No Image added."
+                    />
+                    <br />
+                    <a
+                      href="#"
+                      onClick={() => window.open(question.attachment)}
+                    >
+                      Download Image
+                    </a>
+                    <br />
+                    <br />
+                  </>
                 )}
-                <br />
-                <a href="#" onClick={() => window.open(question.attachment)}>
-                  Download Image
-                </a>
-                <br />
-                <br />
                 {!question.isAnswered && (
                   <>
                     <h4>Not yet answered.</h4>

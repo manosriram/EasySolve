@@ -23,9 +23,7 @@ const Answer = ({ question, id, attachment }, props) => {
 
   const confirmChecks = e => {
     e.preventDefault();
-    if (!userData.username || userData.answer.length < 7) {
-      setMessage("Answer too small, Min. 6 chars");
-    } else if (!userData.username || userData.username.length < 4) {
+    if (!userData.username || userData.username.length < 4) {
       setMessage("Username too small, Min. 4 chars");
     } else preSubmitHandler(e);
   };
@@ -53,8 +51,15 @@ const Answer = ({ question, id, attachment }, props) => {
       formData.append("questionID", id);
 
       submitData(e, formData);
-    }
-    if (userData.attachment || userData.answer) {
+    } else if (!userData.answer && userData.attachment) {
+      let formData = new FormData();
+      formData.append("image", userData.attachment);
+      formData.append("username", userData.username);
+      formData.append("questionID", id);
+      formData.set("enctype", "multipart/form-data");
+
+      submitData(e, formData);
+    } else if (userData.attachment && userData.answer) {
       let formData = new FormData();
       formData.append("image", userData.attachment);
       formData.append("answer", userData.answer);

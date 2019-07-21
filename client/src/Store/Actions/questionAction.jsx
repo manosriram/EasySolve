@@ -63,3 +63,16 @@ export const toggleAnswerVisibility = () => {
     type: "TGL_VBT"
   };
 };
+
+export const gotoA = q_id => {
+  return {
+    type: "goto_ANS",
+    _id: q_id
+  };
+};
+
+export const resetProps = () => {
+  return {
+    type: "RST"
+  };
+};
