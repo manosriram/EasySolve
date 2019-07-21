@@ -26,6 +26,11 @@ hr {
   @include centerDiv();
 }
 
+#delete:hover {
+  cursor: pointer;
+  width: 50px;
+}
+
 #img {
   border-radius: 2px;
   box-shadow: 0 0 15px #343436;

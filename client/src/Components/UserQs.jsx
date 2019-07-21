@@ -35,6 +35,18 @@ const UserQs = props => {
     getQs(data.username);
   };
 
+  const deleteQuestion = async qID => {
+    const resp = await fetch("/file/deleteQuestion", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ qID })
+    });
+    document.location.reload();
+  };
+
   useEffect(() => {
     getStatus();
     getQs();
@@ -104,7 +116,7 @@ const UserQs = props => {
                     }}
                   >
                     <div class="alert alert-info" role="alert">
-                      <h5 id="mdfd">{temp}</h5>
+                      <h5 id="mdfd">{temp} </h5>
                     </div>
                   </h5>
                 </div>
@@ -124,6 +136,12 @@ const UserQs = props => {
                     >
                       Download Image
                     </a>
+                    &nbsp;&nbsp;&nbsp;
+                    <img
+                      onClick={() => deleteQuestion(question._id)}
+                      id="delete"
+                      src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
+                    />
                     <br />
                     <br />
                   </>
@@ -131,6 +149,11 @@ const UserQs = props => {
                 {!question.isAnswered && (
                   <>
                     <h4>Not yet answered.</h4>
+                    <img
+                      onClick={() => deleteQuestion(question._id)}
+                      id="delete"
+                      src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
+                    />
                   </>
                 )}
                 {question.isAnswered && (

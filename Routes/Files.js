@@ -10,6 +10,15 @@ AWS.config.update({
   region: process.env.AWS_REGION
 });
 
+router.delete("/deleteQuestion", async (req, res) => {
+  const { qID } = req.body;
+  Question.deleteOne({ _id: qID })
+    .then(() => {
+      return res.json({ success: true });
+    })
+    .catch(err => console.log(err));
+});
+
 router.post("/answerQuestion", async (req, res) => {
   const { answer, username, questionID } = req.body;
   if (!req.files) {
