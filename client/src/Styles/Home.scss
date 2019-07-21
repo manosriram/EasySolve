@@ -26,8 +26,33 @@ hr {
   @include centerDiv();
 }
 
-img {
-  border-radius: 5px;
+#img {
+  border-radius: 2px;
+  box-shadow: 0 0 15px #343436;
+  filter: brightness(1.1);
+  height: 150px;
+  width: 200px;
+  margin: 0 auto;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+.close {
+  background-repeat: no-repeat;
+  bottom: 418px;
+  display: none;
+  height: 32px;
+  left: 462px;
+  margin-top: -32px;
+  position: relative;
+  width: 32px;
+}
+.expand {
+  bottom: 125px;
+  margin-left: -32px;
+  margin-right: 16px;
+  pointer-events: none;
+  position: relative;
 }
 
 .answerElement {
@@ -76,11 +101,50 @@ img {
   word-wrap: break-word;
 }
 
+#mdfd {
+  white-space: pre-wrap;
+}
+#mdfd:hover {
+  cursor: pointer;
+}
+
 input[type="file"] {
   @include centerDiv();
   &:hover {
     cursor: pointer;
   }
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5vh;
+  #anc {
+    font-size: 3vh;
+    color: #3498db;
+  }
+  #anc:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  background-color: red;
+  text-align: center;
+}
+
+#paginate {
+  color: blue;
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+}
+
+#pagination:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 #pending {

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
-import { StyledButton } from "../Styles/StyledCom";
 const Cookie = require("js-cookie");
 
 const Navbar = props => {
@@ -19,17 +18,16 @@ const Navbar = props => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
-      <ul className="navbar-nav">
-        <img
-          src="https://img.icons8.com/color/48/000000/back.png"
-          id="backButton"
-          onClick={goBack}
-        />
-        {/* <img src="https://img.icons8.com/flat_round/64/000000/back.png" /> */}
-      </ul>
-      <Link className="navbar-brand" to="/">
+      <img
+        src="https://img.icons8.com/ios-filled/100/000000/circled-left.png"
+        id="backButton"
+        onClick={goBack}
+      />
+      &nbsp; &nbsp;
+      <Link className="navbar-brand" to="/" id="hme">
         HOME
       </Link>
+      &nbsp; &nbsp;
       <button
         className="navbar-toggler"
         type="button"

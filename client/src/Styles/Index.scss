@@ -51,16 +51,18 @@
 }
 
 #backButton {
-  width: 70%;
+  width: 5vh;
   height: auto;
+  height: 5vh;
 
   &:hover {
     cursor: pointer;
     transition: 1s;
-    background: black;
   }
 }
-
+#hme {
+  @include centerDiv();
+}
 nav {
   border-radius: 30px;
   width: 100%;
@@ -71,6 +73,10 @@ nav {
 }
 
 @media only screen and (max-width: 768px) {
+  #backButton {
+    width: 5vh;
+    height: 5vh;
+  }
   nav {
     #lg {
       margin-left: 0vw;

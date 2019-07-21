@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Question = require("../Models/QuestionModel");
-const multer = require("multer");
 const path = require("path");
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  region: process.env.AWS_REGION
+});
 
 router.post("/answerQuestion", async (req, res) => {
   const { answer, username, questionID } = req.body;
@@ -16,24 +22,41 @@ router.post("/answerQuestion", async (req, res) => {
     an.save();
     return res.json({ success: true, message: "Answer submitted." });
   } else {
-    const fl = req.files.imageFile;
-    let newFileName = Date.now() + fl.name;
-
-    fl.mv(`${__dirname}/../public/answers/${newFileName}`, err => {
-      if (!err) console.log(`Uploaded ${newFileName}`);
-      else return res.json({ success: false, err });
-    });
-
-    const qs = await Question.findOne({ _id: questionID });
-    qs.isAnswered = true;
-    qs.answeredBy = username;
-    qs.answer = {
-      answerString: answer,
-      attachment: `/public/answers/${newFileName}`
+    const s3 = new AWS.S3();
+    const file = req.files.image.data;
+    const params = {
+      Bucket: "easysolve",
+      Key: `answers/${username}-${Date.now().toString()}`,
+      ACL: "public-read",
+      Body: file
     };
-    qs.save();
-    return res.json({ success: true, message: "Answer submitted." });
+
+    s3.putObject(params, async (err, data) => {
+      if (err) {
+        return res.json({ success: false, message: "Error uploading file.." });
+      } else {
+        const qs = await Question.findOne({ _id: questionID });
+        qs.isAnswered = true;
+        qs.answeredBy = username;
+        qs.answer = {
+          answerString: answer,
+          attachment: `https://easysolve.s3.ap-south-1.amazonaws.com/${
+            params.Key
+          }`
+        };
+        qs.save();
+        return res.json({ success: true, message: "Answer submitted." });
+      }
+    });
   }
+});
+
+router.get("/getNotAnswered", async (req, res) => {
+  Question.find({ isAnswered: false })
+    .then(questions => {
+      return res.json({ questions: questions.reverse() });
+    })
+    .catch(err => console.log(err));
 });
 
 router.get("/getAllQuestions", async (req, res) => {
@@ -50,7 +73,7 @@ router.post("/getUserQuestions", async (req, res) => {
   const qs = await Question.find({ askedBy: user });
   // ConstantSourceNode
 
-  return res.json({ questions: qs });
+  return res.json({ questions: qs.reverse() });
 });
 
 router.post("/addQuestion", (req, res) => {
@@ -64,26 +87,37 @@ router.post("/addQuestion", (req, res) => {
     return res.json({ success: true, message: "Question Added." });
   }
 
-  let fl = req.files.imageFile;
-  let newFileName = Date.now() + fl.name;
   const { question, user } = req.body;
-
-  fl.mv(`${__dirname}/../public/questions/${newFileName}`, err => {
-    if (!err) {
+  const s3 = new AWS.S3();
+  const file = req.files.image.data;
+  const params = {
+    Bucket: "easysolve",
+    Key: `questions/${user}-${Date.now().toString()}`,
+    ACL: "public-read",
+    Body: file
+  };
+  s3.putObject(params, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        success: false,
+        message: "Error uploading file.."
+      });
+    } else {
       const qs = new Question({
         askedBy: user,
         question,
-        attachment: `/public/questions/${newFileName}`,
+        attachment: `https://easysolve.s3.ap-south-1.amazonaws.com/${
+          params.Key
+        }`,
         isAnswered: false
       });
       qs.save();
-      console.log(`Uploaded ${newFileName}`);
       return res.json({
         success: true,
-        loadedFileName: newFileName,
-        message: "File Uploaded."
+        message: "File Uploaded Succesfully !"
       });
-    } else return res.json({ success: false, err });
+    }
   });
 });
 

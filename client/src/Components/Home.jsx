@@ -14,6 +14,7 @@ const Home = props => {
     setUsername(data.username);
   };
   useEffect(() => {
+    props.setMessage("");
     getStatus();
   }, []);
 
@@ -29,10 +30,11 @@ const Home = props => {
     }
     if (props.attachment || props.question) {
       let formData = new FormData();
-      formData.append("imageFile", props.attachment[0]);
+      formData.append("image", props.attachment[0]);
       formData.append("question", props.question);
       formData.append("user", username);
-      formData.set("enctype", "multipart/form-data");
+      formData.set("method", "post");
+      formData.append("enctype", "multipart/form-data");
       props.submitData(e, formData);
       return;
     } else {
@@ -63,7 +65,7 @@ const Home = props => {
         />
         <br />
         <StyledInput
-          name="imageFile"
+          name="image"
           type="file"
           borderC="transparent"
           onChange={props.handleFileChange}

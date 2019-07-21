@@ -1,4 +1,3 @@
-import { postHandler } from "../../Headers";
 const axios = require("axios");
 
 export const handleChange = e => {

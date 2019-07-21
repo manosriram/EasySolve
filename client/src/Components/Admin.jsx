@@ -3,6 +3,7 @@ import "../Styles/Home.scss";
 import Answer from "./Answer";
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import Pagination from "./Pagination";
 import { connect } from "react-redux";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { setLoader } from "../Store/Actions/loginAction";
@@ -12,8 +13,10 @@ const Cookie = require("js-cookie");
 const Admin = props => {
   const [q, setQ] = useState(undefined);
   const [Sans, setSA] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
   const getQs = async () => {
-    const resp = await fetch("/file/getAllQuestions");
+    const resp = await fetch("/file/getNotAnswered");
     const data = await resp.json();
     props.setQuestions(data);
     props.setLoader(false);
@@ -37,6 +40,12 @@ const Admin = props => {
     setSA(true);
   };
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = props.questions.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
   if (Sans) {
     return (
       <Answer
@@ -52,47 +61,71 @@ const Admin = props => {
     <>
       <Navbar props={props} />
       <br />
-      {props.questions.map((question, questionIndex) => {
+      <div id="pending">
+        {props.questions.length === 0 && <h5>No pending Questions.</h5>}
+      </div>
+
+      {currentPosts.map((question, questionIndex) => {
         var ago = moment(question.askedOn).fromNow();
         var originalString = question.question;
         var modifiedString =
           originalString.length > 20
-            ? originalString.substr(0, 20) + "..."
+            ? originalString.substr(0, 20) + "....."
             : originalString;
+        //(e.target.innerHTML = originalString)
+        let temp = modifiedString;
+        return (
+          <div id="Qs">
+            <div id="qtext">
+              <h5
+                onClick={e => {
+                  e.target.innerHTML === originalString
+                    ? (e.target.innerHTML = modifiedString)
+                    : (e.target.innerHTML = originalString);
 
-        if (!question.isAnswered) {
-          cn++;
-          return (
-            <div id="Qs">
-              <div id="qtext">
-                <h5 onClick={e => (e.target.innerHTML = originalString)}>
-                  {modifiedString}
-                </h5>
-                <p>( asked by {question.askedBy} )</p>
-              </div>
-              <p>({ago})</p>
-              {question.attachment && (
-                <img id="img" src={question.attachment} alt="No Image added." />
-              )}
-              <br />
-              <br />
-              <StyledButton onClick={() => handlePopUp(question)}>
-                Answer
-              </StyledButton>
+                  temp = e.target.innerHTML;
+                }}
+              >
+                <div class="alert alert-info" role="alert">
+                  <h5 id="mdfd">{temp}</h5>
+                </div>
+              </h5>
             </div>
-          );
-        }
+            <p>({ago})</p>
+            {question.attachment && (
+              <>
+                <img
+                  id="img"
+                  src={question.attachment}
+                  usemap="m1"
+                  alt="No Image added."
+                />
+                <br />
+                <a href="#" onClick={() => window.open(question.attachment)}>
+                  Download Image
+                </a>
+                <br />
+                <br />
+              </>
+            )}
+            <StyledButton onClick={() => handlePopUp(question)}>
+              Answer
+            </StyledButton>
+            <br />
+            <br />
+          </div>
+        );
       })}
-      <div id="pending">
-        {!cn && (
-          <>
-            <h5>No pending Questions.</h5>
-            <a href="#" onClick={adminLogout}>
-              Logout
-            </a>
-          </>
-        )}
-        <a href="#" id="lgot" onClick={adminLogout}>
+
+      <div id="paginate">
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={props.questions.length}
+          paginate={paginate}
+        />
+      </div>
+      <div className="footer">
+        <a id="anc" onClick={adminLogout}>
           Admin Logout
         </a>
       </div>

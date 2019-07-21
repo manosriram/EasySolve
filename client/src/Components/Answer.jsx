@@ -6,6 +6,7 @@ const axios = require("axios");
 
 var originalString;
 var modifiedString;
+var temp;
 const Answer = ({ question, id, attachment }, props) => {
   useEffect(() => {
     originalString = question;
@@ -13,6 +14,8 @@ const Answer = ({ question, id, attachment }, props) => {
       originalString.length > 20
         ? originalString.substr(0, 20) + "..."
         : originalString;
+
+    temp = modifiedString;
   }, []);
 
   const [userData, setUserData] = useState({});
@@ -20,17 +23,17 @@ const Answer = ({ question, id, attachment }, props) => {
 
   const confirmChecks = e => {
     e.preventDefault();
-    if (userData.answer.length < 7) {
+    if (!userData.username || userData.answer.length < 7) {
       setMessage("Answer too small, Min. 6 chars");
-    } else if (userData.username.length < 4) {
+    } else if (!userData.username || userData.username.length < 4) {
       setMessage("Username too small, Min. 4 chars");
     } else preSubmitHandler(e);
-
-    document.location = "/adminPanel";
   };
 
   const submitData = async (e, formData) => {
     const resp = await axios.post("/file/answerQuestion", formData);
+    window.location = "/adminPanel";
+    setMessage(resp.data.message);
   };
 
   const handleChange = e => {
@@ -53,7 +56,7 @@ const Answer = ({ question, id, attachment }, props) => {
     }
     if (userData.attachment || userData.answer) {
       let formData = new FormData();
-      formData.append("imageFile", userData.attachment);
+      formData.append("image", userData.attachment);
       formData.append("answer", userData.answer);
       formData.append("username", userData.username);
       formData.append("questionID", id);
@@ -68,14 +71,21 @@ const Answer = ({ question, id, attachment }, props) => {
     <>
       <Navbar props={props} />
       <div id="Qs">
-        <h4>{message}</h4>
         <br />
         <div id="qtext">
-          <h5 onClick={e => (e.target.innerHTML = originalString)}>
-            {modifiedString}
+          <h5
+            onClick={e => {
+              e.target.innerHTML === originalString
+                ? (e.target.innerHTML = modifiedString)
+                : (e.target.innerHTML = originalString);
+
+              temp = e.target.innerHTML;
+            }}
+          >
+            {temp}
           </h5>
         </div>
-        <img id="img" src={attachment} alt="No Image added." />
+        {attachment && <img id="img" src={attachment} alt="No Image added." />}
         <br />
         <br />
         <form id="questionArea">
@@ -110,6 +120,9 @@ const Answer = ({ question, id, attachment }, props) => {
             Submit
           </StyledButton>
         </form>
+        <br />
+
+        <h4>{message}</h4>
         <br />
         <br />
       </div>
