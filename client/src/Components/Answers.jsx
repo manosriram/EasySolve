@@ -4,6 +4,8 @@ import "../Styles/Home.scss";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { connect } from "react-redux";
 import ShowMoreText from "react-show-more-text";
+import { Link } from "react-router-dom";
+import { SSL_OP_NETSCAPE_CA_DN_BUG } from "constants";
 
 const Answers = props => {
   const [answer, setAns] = React.useState([]);
@@ -40,6 +42,8 @@ const Answers = props => {
   return (
     <>
       <Navbar />
+      <br />
+      <br />
       {answer.map((ans, ansInd) => {
         return (
           <div id="Qs">
@@ -47,25 +51,26 @@ const Answers = props => {
               Answered By <strong>{ans.answeredBy}</strong>
             </h5>
             <br />
-            <img src={ans.attachment} id="img" alt="No Image added." />
+            <div id="container">
+              <img src={ans.attachment} id="img" alt="No Image added." />
+            </div>
             <br />
             {ans.attachment && (
               <a href="#" onClick={() => window.open(ans.attachment)}>
-                Download File
+                <strong> Download File</strong>
+                &nbsp;&nbsp;
               </a>
             )}
-            <br />
-            <br />
+            {ans.answeredEmail == props.email && (
+              <Link id="delAns" onClick={() => deleteQuestion(ans._id)}>
+                <strong> Delete Answer.</strong>
+              </Link>
+            )}
             <div id="ans" class="alert alert-info" role="alert">
               <ShowMoreText lines={3} more="Show more" less="Show less">
                 <div id="textA">{ans.answerString}</div>
               </ShowMoreText>
             </div>
-            {ans.answeredEmail == props.email && (
-              <p id="delAns" onClick={() => deleteQuestion(ans._id)}>
-                Delete Answer.
-              </p>
-            )}
             <hr />
           </div>
         );

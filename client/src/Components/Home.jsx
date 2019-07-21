@@ -8,6 +8,7 @@ import "../Styles/Home.scss";
 
 const Home = props => {
   const [username, setUsername] = React.useState("");
+  const [spinStat, setSpinStat] = React.useState(false);
   const getStatus = async () => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
@@ -21,7 +22,7 @@ const Home = props => {
 
   const preSubmitHandler = e => {
     e.preventDefault();
-    props.setLoader(true);
+    setSpinStat(true);
     if (props.question && !props.attachment) {
       let formData = new FormData();
       formData.append("question", props.question);
@@ -38,11 +39,11 @@ const Home = props => {
     } else {
       props.setMessage("Fill all the fields..");
     }
-    props.setLoader(false);
+    setSpinStat(false);
     return;
   };
 
-  if (props.isSpinning) {
+  if (spinStat) {
     return (
       <div className="d-flex justify-content-center" id="spinner">
         <div className="spinner-border" role="status">

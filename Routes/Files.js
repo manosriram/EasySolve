@@ -66,7 +66,7 @@ router.post("/answerQuestion", async (req, res) => {
           answeredEmail: adEmail,
           answeredBy: username,
           answerString: answer,
-          question_ID: an._id,
+          question_ID: qs._id,
           attachment: `https://easysolve.s3.ap-south-1.amazonaws.com/${
             params.Key
           }`
