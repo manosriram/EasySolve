@@ -10,7 +10,12 @@ router.get("/getAdminDet", (req, res) => {
   jsonwt.verify(req.cookies.admin_t_auth, key, (err, user) => {
     if (user) {
       return res.json({
+        success: true,
         email: user.email
+      });
+    } else {
+      return res.json({
+        success: false
       });
     }
   });

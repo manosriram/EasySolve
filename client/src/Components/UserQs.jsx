@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { postHandler } from "../Headers";
+import ShowMoreText from "react-show-more-text";
 import "../Styles/Home.scss";
 import { Link } from "react-router-dom";
 import { setLoader } from "../Store/Actions/loginAction";
@@ -63,17 +64,6 @@ const UserQs = props => {
     set_q_id(_id);
   };
 
-  const toggleV = divIndex => {
-    props.toggleVisibility();
-    let els = document.querySelector(`#div${divIndex}`);
-    let secR = document.querySelector(`#msg${divIndex}`);
-    !props.toggleV
-      ? (els.style.display = "block") &&
-        (secR.style.display = "block") &&
-        (secR.innerHTML = "Show Less")
-      : (els.style.display = "none") && (secR.innerHTML = "Show Answer");
-  };
-
   if (showAns) {
     return <Answers qID={qid} />;
   }
@@ -96,28 +86,19 @@ const UserQs = props => {
           {props.questions.length === 0 && <h4 id="Qs">No Questions yet.</h4>}
           {currentPosts.map((question, questionIndex) => {
             var ago = moment(question.askedOn).fromNow();
-            var originalString = question.question;
-            var modifiedString =
-              originalString.length > 20
-                ? originalString.substr(0, 20) + "....."
-                : originalString;
-            //(e.target.innerHTML = originalString)
-            let temp = modifiedString;
             return (
-              <div id="Qs">
-                <div id="qtext">
-                  <div
-                    class="alert alert-info"
-                    role="alert"
-                    onClick={e => {
-                      temp === question.question
-                        ? (temp = modifiedString)
-                        : (temp = question.question);
-
-                      e.target.innerHTML = temp;
-                    }}
-                  >
-                    <h5 id="mdfd">{temp}</h5>
+              <div id="Qs" key={questionIndex}>
+                <div id="qtext" key={questionIndex}>
+                  <div className="alert alert-info" role="alert">
+                    <ShowMoreText
+                      lines={3}
+                      more="Show more"
+                      less="Show less"
+                      id="ta"
+                    >
+                      <div id="textA">{question.question}</div>
+                      <br />
+                    </ShowMoreText>
                   </div>
                 </div>
                 <p>({ago})</p>

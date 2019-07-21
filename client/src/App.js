@@ -13,7 +13,6 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        {/* <Navbar /> */}
         <Route exact path="/" component={Index} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
@@ -21,7 +20,7 @@ const App = () => {
         <Route exact path="/userQs" component={UserQs} />
         <Route exact path="/adminPanel" component={AdminPanel} />
         <Route exact path="/answers" component={Answers} />
-        {/* <Route exact path="/admin" component={Admin} /> */}
+        <Route exact path="/admin_T_A" component={Admin} />
       </BrowserRouter>
     </>
   );

@@ -22,8 +22,10 @@ const QuestionSchema = new Schema({
   answer: [
     {
       answeredBy: { type: String },
+      answeredEmail: { type: String },
       answerString: { type: String },
-      attachment: { type: String }
+      attachment: { type: String },
+      question_ID: { type: String }
     }
   ]
 });

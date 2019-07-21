@@ -2,12 +2,13 @@ import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 import React, { useEffect, useState } from "react";
 import { StyledInput, StyledButton } from "../Styles/StyledCom";
+import ShowMoreText from "react-show-more-text";
 const axios = require("axios");
 
 var originalString;
 var modifiedString;
 var temp;
-const Answer = ({ question, id, attachment }, props) => {
+const Answer = ({ question, id, attachment, adminEmail }, props) => {
   useEffect(() => {
     originalString = question;
     modifiedString =
@@ -48,12 +49,14 @@ const Answer = ({ question, id, attachment }, props) => {
     formData.set("id", "fd");
     if (userData.answer && !userData.attachment) {
       formData.append("answer", userData.answer);
+      formData.append("adEmail", adminEmail);
       formData.append("username", userData.username);
       formData.append("questionID", id);
 
       submitData(e, formData);
     } else if (!userData.answer && userData.attachment) {
       formData.append("image", userData.attachment);
+      formData.append("adEmail", adminEmail);
       formData.append("username", userData.username);
       formData.append("questionID", id);
       formData.set("enctype", "multipart/form-data");
@@ -61,6 +64,7 @@ const Answer = ({ question, id, attachment }, props) => {
       submitData(e, formData);
     } else if (userData.attachment && userData.answer) {
       formData.append("image", userData.attachment);
+      formData.append("adEmail", adminEmail);
       formData.append("answer", userData.answer);
       formData.append("username", userData.username);
       formData.append("questionID", id);
@@ -77,17 +81,12 @@ const Answer = ({ question, id, attachment }, props) => {
       <div id="Qs">
         <br />
         <div id="qtext">
-          <h5
-            onClick={e => {
-              e.target.innerHTML === originalString
-                ? (e.target.innerHTML = modifiedString)
-                : (e.target.innerHTML = originalString);
-
-              temp = e.target.innerHTML;
-            }}
-          >
-            {temp}
-          </h5>
+          <div class="alert alert-info" role="alert">
+            <ShowMoreText lines={3} more="Show more" less="Show less" id="ta">
+              <div id="textA">{question}</div>
+              <br />
+            </ShowMoreText>
+          </div>
         </div>
         {attachment && <img id="img" src={attachment} alt="No Image added." />}
         <br />

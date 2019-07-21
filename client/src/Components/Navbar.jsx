@@ -1,3 +1,4 @@
+import { withRouter, Redirect } from "react-router-dom";
 import React from "react";
 import "../Styles/Index.scss";
 import { Link } from "react-router-dom";
@@ -7,7 +8,11 @@ const Navbar = props => {
   const isLoggedIn = Cookie.get("auth_t") ? true : false;
 
   const goBack = () => {
-    if (props.props.history) props.props.history.goBack();
+    try {
+      if (props.props.history) props.props.history.goBack();
+    } catch (er) {
+      window.location.reload();
+    }
   };
 
   const Logout = () => {
@@ -18,6 +23,11 @@ const Navbar = props => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
+      <img
+        id="backButton"
+        src="https://img.icons8.com/ios-filled/50/000000/circled-left.png"
+        onClick={goBack}
+      />
       <Link className="navbar-brand" to="/">
         HOME
       </Link>
@@ -82,4 +92,4 @@ const Navbar = props => {
   );
 };
 
-export default Navbar;
+export default withRouter(Navbar);

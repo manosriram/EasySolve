@@ -38,7 +38,7 @@ const AdminPanel = props => {
   };
 
   if (status || Cookie.get("admin_t_auth")) {
-    return <Admin />;
+    props.history.push("/admin_T_A");
   }
 
   return (

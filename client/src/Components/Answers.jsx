@@ -3,9 +3,23 @@ import Navbar from "./Navbar";
 import "../Styles/Home.scss";
 import * as actionCreator from "../Store/Actions/questionAction";
 import { connect } from "react-redux";
+import ShowMoreText from "react-show-more-text";
 
 const Answers = props => {
   const [answer, setAns] = React.useState([]);
+
+  const deleteQuestion = async aID => {
+    const resp = await fetch("/file/deleteAnswer", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ aID, qID: props.qID })
+    });
+    document.location.reload();
+  };
+
   const fetchData = async () => {
     const resp = await fetch("/file/getAllAnswers", {
       method: "POST",
@@ -27,12 +41,6 @@ const Answers = props => {
     <>
       <Navbar />
       {answer.map((ans, ansInd) => {
-        var originalString = ans.answerString;
-        var modifiedString =
-          originalString.length > 20
-            ? originalString.substr(0, 20) + "....."
-            : originalString;
-        var temp = modifiedString;
         return (
           <div id="Qs">
             <h5>
@@ -41,20 +49,23 @@ const Answers = props => {
             <br />
             <img src={ans.attachment} id="img" alt="No Image added." />
             <br />
-            <div
-              id="ans"
-              class="alert alert-info"
-              role="alert"
-              onClick={e => {
-                temp === ans.answerString
-                  ? (temp = modifiedString)
-                  : (temp = ans.answerString);
-
-                e.target.innerHTML = temp;
-              }}
-            >
-              <h5>{temp}</h5>
+            {ans.attachment && (
+              <a href="#" onClick={() => window.open(ans.attachment)}>
+                Download File
+              </a>
+            )}
+            <br />
+            <br />
+            <div id="ans" class="alert alert-info" role="alert">
+              <ShowMoreText lines={3} more="Show more" less="Show less">
+                <div id="textA">{ans.answerString}</div>
+              </ShowMoreText>
             </div>
+            {ans.answeredEmail == props.email && (
+              <p id="delAns" onClick={() => deleteQuestion(ans._id)}>
+                Delete Answer.
+              </p>
+            )}
             <hr />
           </div>
         );

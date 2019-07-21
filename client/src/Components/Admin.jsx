@@ -2,6 +2,7 @@ import { StyledButton } from "../Styles/StyledCom";
 import "../Styles/Home.scss";
 import Answer from "./Answer";
 import React, { useEffect, useState } from "react";
+import ShowMoreText from "react-show-more-text";
 import Navbar from "./Navbar";
 import Pagination from "./Pagination";
 import { connect } from "react-redux";
@@ -20,6 +21,7 @@ const Admin = props => {
   const [showAns, setShowAns] = useState(false);
   const [qid, set_q_id] = useState(undefined);
   const [adEm, setAdm] = useState("");
+  const [lgSt, setLgSt] = useState(false);
 
   const getQs = async () => {
     const resp = await fetch("/file/getAllQuestions");
@@ -33,7 +35,12 @@ const Admin = props => {
     const fetchAdmin = async () => {
       const resp = await fetch("/auth/getAdminDet");
       const data = await resp.json();
-      setAdm(data.email);
+      if (data.success) {
+        setAdm(data.email);
+        setLgSt(true);
+      } else {
+        setLgSt(false);
+      }
     };
     fetchAdmin();
     getQs();
@@ -65,9 +72,18 @@ const Admin = props => {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
+  if (!lgSt) {
+    return (
+      <div id="pending">
+        <h6>No Access.Login as Admin to continue..</h6>
+      </div>
+    );
+  }
+
   if (Sans) {
     return (
       <Answer
+        adminEmail={adEm}
         question={q.question}
         id={q.id}
         attachment={q.attachment}
@@ -104,29 +120,22 @@ const Admin = props => {
 
       {currentPosts.map((question, questionIndex) => {
         var ago = moment(question.askedOn).fromNow();
-        var originalString = question.question;
-        var modifiedString =
-          originalString.length > 20
-            ? originalString.substr(0, 20) + "....."
-            : originalString;
-        let temp = modifiedString;
         return (
           <div id="Qs" key={questionIndex}>
             <div id="qtext" key={questionIndex}>
-              <div
-                className="alert alert-info"
-                role="alert"
-                id="ans"
-                onClick={e => {
-                  temp === question.question
-                    ? (temp = modifiedString)
-                    : (temp = question.question);
-
-                  e.target.innerHTML = temp;
-                }}
-              >
-                <h5 id="mdfd">{temp}</h5>
-              </div>
+              {question.question && (
+                <div className="alert alert-info" role="alert" id="ans">
+                  <ShowMoreText
+                    lines={3}
+                    more="Show more"
+                    less="Show less"
+                    id="ta"
+                  >
+                    <div id="textA">{question.question}</div>
+                    <br />
+                  </ShowMoreText>
+                </div>
+              )}
               <p>Asked by ({question.askedBy})</p>
             </div>
             <p>({ago})</p>

@@ -10,6 +10,20 @@ AWS.config.update({
   region: process.env.AWS_REGION
 });
 
+router.delete("/deleteAnswer", async (req, res) => {
+  const { aID, qID } = req.body;
+  Question.findOne({ _id: qID })
+    .then(question => {
+      let op = [];
+      question.answer = question.answer.filter((q, qID) => {
+        return q._id != aID;
+      });
+      question.save();
+      return res.json({ success: true });
+    })
+    .catch(err => console.log(err));
+});
+
 router.delete("/deleteQuestion", async (req, res) => {
   const { qID } = req.body;
   Question.deleteOne({ _id: qID })
@@ -20,13 +34,15 @@ router.delete("/deleteQuestion", async (req, res) => {
 });
 
 router.post("/answerQuestion", async (req, res) => {
-  const { answer, username, questionID } = req.body;
+  const { answer, username, questionID, adEmail } = req.body;
   if (!req.files) {
     const an = await Question.findOne({ _id: questionID });
     an.isAnswered = true;
     an.answer.push({
+      answeredEmail: adEmail,
       answeredBy: username,
-      answerString: answer
+      answerString: answer,
+      question_ID: an._id
     });
     an.save();
     return res.json({ success: true, message: "Answer submitted." });
@@ -47,8 +63,10 @@ router.post("/answerQuestion", async (req, res) => {
         const qs = await Question.findOne({ _id: questionID });
         qs.isAnswered = true;
         qs.answer.push({
+          answeredEmail: adEmail,
           answeredBy: username,
           answerString: answer,
+          question_ID: an._id,
           attachment: `https://easysolve.s3.ap-south-1.amazonaws.com/${
             params.Key
           }`

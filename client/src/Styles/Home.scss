@@ -19,6 +19,15 @@ hr {
   }
 }
 
+#delAns {
+  color: #e84342;
+}
+
+#delAns:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #message {
   h3 {
     transition: 1s;
@@ -31,9 +40,20 @@ hr {
   width: 50px;
 }
 
+#ans {
+  width: 100%;
+}
+
 #ans:hover {
-  text-decoration: underline;
   cursor: pointer;
+}
+
+#textA {
+  border: 2px solid;
+  padding: 20px;
+  width: 100%;
+  resize: both;
+  overflow: auto;
 }
 
 #img {
@@ -78,6 +98,12 @@ hr {
   }
 }
 
+#ta {
+  white-space: pre-wrap;
+  width: 100%;
+  @include centerDiv();
+}
+
 #noQ {
   @include centerDiv();
 }
@@ -111,16 +137,26 @@ hr {
   width: 70vw;
   word-wrap: break-word;
 }
+#fle {
+  text-decoration: underline;
+}
+
+#fle:hover {
+  cursor: pointer;
+}
 
 #mdfd {
   white-space: pre-wrap;
 }
+
 #mdfd:hover {
   cursor: pointer;
 }
 
 input[type="file"] {
   @include centerDiv();
+  // border-radius: 5px;
+  width: 28vw;
   &:hover {
     cursor: pointer;
   }

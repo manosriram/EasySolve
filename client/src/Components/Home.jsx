@@ -72,13 +72,24 @@ const Home = props => {
           placeholder="Your Question Here.."
           onChange={props.handleChange}
         />
-        <br />
         <StyledInput
           name="image"
           type="file"
+          id="files"
           borderC="transparent"
           onChange={props.handleFileChange}
+          hidden
         />
+        <br />
+        <br />
+        <label
+          itemType="file"
+          for="files"
+          id="fle"
+          onChange={props.handleFileChange}
+        >
+          Select file
+        </label>
         <br />
         <br />
         <StyledButton id="ask" onClick={preSubmitHandler}>
