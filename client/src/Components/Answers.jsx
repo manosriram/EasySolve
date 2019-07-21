@@ -16,7 +16,6 @@ const Answers = props => {
       body: JSON.stringify({ qID: props.qID })
     });
     const data = await resp.json();
-    console.log(data);
     data.success ? setAns(data.answers) : setAns([]);
   };
 
@@ -42,8 +41,19 @@ const Answers = props => {
             <br />
             <img src={ans.attachment} id="img" alt="No Image added." />
             <br />
-            <div class="alert alert-info" role="alert">
-              <h5>{ans.answerString}</h5>
+            <div
+              id="ans"
+              class="alert alert-info"
+              role="alert"
+              onClick={e => {
+                temp === ans.answerString
+                  ? (temp = modifiedString)
+                  : (temp = ans.answerString);
+
+                e.target.innerHTML = temp;
+              }}
+            >
+              <h5>{temp}</h5>
             </div>
             <hr />
           </div>

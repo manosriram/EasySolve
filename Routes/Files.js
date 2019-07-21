@@ -77,7 +77,8 @@ router.get("/getNotAnswered", async (req, res) => {
 router.get("/getAllQuestions", async (req, res) => {
   Question.find()
     .then(questions => {
-      return res.json({ questions: questions.reverse() });
+      // questions = questions.sort();
+      return res.json({ questions: questions.sort() });
     })
     .catch(err => console.log(err));
 });

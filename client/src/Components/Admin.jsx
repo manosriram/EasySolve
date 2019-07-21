@@ -113,33 +113,29 @@ const Admin = props => {
         return (
           <div id="Qs" key={questionIndex}>
             <div id="qtext" key={questionIndex}>
-              <h5
+              <div
+                className="alert alert-info"
+                role="alert"
+                id="ans"
                 onClick={e => {
-                  e.target.innerHTML === originalString
-                    ? (e.target.innerHTML = modifiedString)
-                    : (e.target.innerHTML = originalString);
+                  temp === question.question
+                    ? (temp = modifiedString)
+                    : (temp = question.question);
 
-                  temp = e.target.innerHTML;
+                  e.target.innerHTML = temp;
                 }}
               >
-                <div className="alert alert-info" role="alert">
-                  <h5 id="mdfd">{temp}</h5>
-                  <p>Asked by ({question.askedBy})</p>
-                </div>
-              </h5>
+                <h5 id="mdfd">{temp}</h5>
+              </div>
+              <p>Asked by ({question.askedBy})</p>
             </div>
             <p>({ago})</p>
             {question.attachment && (
               <>
-                <img
-                  id="img"
-                  src={question.attachment}
-                  usemap="m1"
-                  alt="No Image added."
-                />
+                <img id="img" src={question.attachment} alt="No Image added." />
                 <br />
                 <a href="#" onClick={() => window.open(question.attachment)}>
-                  Download Image
+                  Download File
                 </a>
                 &nbsp;&nbsp;&nbsp;
               </>

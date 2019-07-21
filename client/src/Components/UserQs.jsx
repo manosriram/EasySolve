@@ -106,19 +106,19 @@ const UserQs = props => {
             return (
               <div id="Qs">
                 <div id="qtext">
-                  <h5
+                  <div
+                    class="alert alert-info"
+                    role="alert"
                     onClick={e => {
-                      e.target.innerHTML === originalString
-                        ? (e.target.innerHTML = modifiedString)
-                        : (e.target.innerHTML = originalString);
+                      temp === question.question
+                        ? (temp = modifiedString)
+                        : (temp = question.question);
 
-                      temp = e.target.innerHTML;
+                      e.target.innerHTML = temp;
                     }}
                   >
-                    <div class="alert alert-info" role="alert">
-                      <h5 id="mdfd">{temp} </h5>
-                    </div>
-                  </h5>
+                    <h5 id="mdfd">{temp}</h5>
+                  </div>
                 </div>
                 <p>({ago})</p>
                 {question.attachment && (
@@ -126,7 +126,6 @@ const UserQs = props => {
                     <img
                       id="img"
                       src={question.attachment}
-                      usemap="m1"
                       alt="No Image added."
                     />
                     <br />
@@ -134,14 +133,9 @@ const UserQs = props => {
                       href="#"
                       onClick={() => window.open(question.attachment)}
                     >
-                      Download Image
+                      Download File
                     </a>
                     &nbsp;&nbsp;&nbsp;
-                    <img
-                      onClick={() => deleteQuestion(question._id)}
-                      id="delete"
-                      src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
-                    />
                     <br />
                     <br />
                   </>
@@ -149,13 +143,13 @@ const UserQs = props => {
                 {!question.isAnswered && (
                   <>
                     <h4>Not yet answered.</h4>
-                    <img
-                      onClick={() => deleteQuestion(question._id)}
-                      id="delete"
-                      src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
-                    />
                   </>
                 )}
+                <img
+                  onClick={() => deleteQuestion(question._id)}
+                  id="delete"
+                  src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
+                />
                 {question.isAnswered && (
                   <>
                     <Link onClick={() => showAnswers(question._id)}>

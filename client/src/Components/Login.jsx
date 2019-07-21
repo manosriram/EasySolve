@@ -38,9 +38,9 @@ const Login = props => {
 
   if (props.isSpinning) {
     return (
-      <div class="d-flex justify-content-center" id="spinner">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+      <div className="d-flex justify-content-center" id="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );

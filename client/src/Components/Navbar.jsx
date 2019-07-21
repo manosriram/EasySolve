@@ -57,7 +57,7 @@ const Navbar = props => {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active" id="lg">
-              <Link className="navbar-brand" onClick={Logout}>
+              <Link className="navbar-brand" onClick={Logout} to="">
                 Logout
               </Link>
             </li>
