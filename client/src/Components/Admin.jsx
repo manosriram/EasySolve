@@ -77,7 +77,7 @@ const Admin = props => {
   }
 
   if (showAns) {
-    return <Answers qID={qid} />;
+    return <Answers qID={qid} email={adEm} />;
   }
 
   if (props.isSpinning) {
