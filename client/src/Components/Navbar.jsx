@@ -18,16 +18,9 @@ const Navbar = props => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
-      {/* <img
-        src="https://img.icons8.com/ios-filled/100/000000/circled-left.png"
-        id="backButton"
-        onClick={goBack}
-      />
-      &nbsp; &nbsp; */}
-      <Link className="navbar-brand" to="/" id="hme">
+      <Link className="navbar-brand" to="/">
         HOME
       </Link>
-      &nbsp; &nbsp;
       <button
         className="navbar-toggler"
         type="button"
