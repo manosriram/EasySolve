@@ -3,6 +3,7 @@ const router = express.Router();
 const Question = require("../Models/QuestionModel");
 const path = require("path");
 const AWS = require("aws-sdk");
+const _ = require("underscore");
 
 AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -95,7 +96,8 @@ router.get("/getNotAnswered", async (req, res) => {
 router.get("/getAllQuestions", async (req, res) => {
   Question.find()
     .then(questions => {
-      return res.json({ questions: questions.reverse() });
+      question__ = _.sortBy(questions, "askedOn");
+      return res.json({ questions: question__.reverse() });
     })
     .catch(err => console.log(err));
 });
@@ -114,7 +116,8 @@ router.post("/addQuestion", (req, res) => {
     const { question, user } = req.body;
     const qs = new Question({
       askedBy: user,
-      question
+      question,
+      isAnswered: false
     });
     qs.save();
     return res.json({ success: true, message: "Question Added." });
