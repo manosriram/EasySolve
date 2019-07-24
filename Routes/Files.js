@@ -95,8 +95,7 @@ router.get("/getNotAnswered", async (req, res) => {
 router.get("/getAllQuestions", async (req, res) => {
   Question.find()
     .then(questions => {
-      // questions = questions.sort();
-      return res.json({ questions: questions.sort() });
+      return res.json({ questions: questions.reverse() });
     })
     .catch(err => console.log(err));
 });

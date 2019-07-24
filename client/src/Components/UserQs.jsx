@@ -131,6 +131,8 @@ const UserQs = props => {
                   id="delete"
                   src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
                 />
+                <br />
+                <br />
                 {question.isAnswered && (
                   <>
                     <Link onClick={() => showAnswers(question._id)}>
