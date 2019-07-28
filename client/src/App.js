@@ -8,6 +8,7 @@ import UserQs from "./Components/UserQs";
 import AdminPanel from "./Components/AdminPanel";
 import Admin from "./Components/Admin";
 import Answers from "./Components/Answers";
+import ForgotPassword from "./Components/ForgotPassword";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path="/adminPanel" component={AdminPanel} />
         <Route exact path="/answers" component={Answers} />
         <Route exact path="/admin_T_A" component={Admin} />
+        <Route exact path="/forgotPassword" component={ForgotPassword} />
       </BrowserRouter>
     </>
   );

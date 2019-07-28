@@ -7,6 +7,11 @@ const Cookie = require("js-cookie");
 const Navbar = props => {
   const isLoggedIn = Cookie.get("auth_t") ? true : false;
 
+  React.useEffect(() => {
+    const upEl = document.getElementById("up");
+    upEl.style.display = "none";
+  }, []);
+
   const goBack = () => {
     try {
       if (props.props.history) props.props.history.goBack();
@@ -21,8 +26,20 @@ const Navbar = props => {
     window.location = "/";
   };
 
+  const handleHAM = e => {
+    const upEl = document.getElementById("up");
+    const downEl = document.getElementById("down");
+    if (e.target.id == "up") {
+      upEl.style.display = "none";
+      downEl.style.display = "block";
+    } else {
+      upEl.style.display = "block";
+      downEl.style.display = "none";
+    }
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar navbar-dark bg-warning">
+    <nav className="navbar navbar-inverse navbar-dark bg-warning">
       <img
         id="backButton"
         src="https://img.icons8.com/ios-filled/50/000000/circled-left.png"
@@ -40,7 +57,16 @@ const Navbar = props => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon" />
+        <img
+          src="https://img.icons8.com/ios-filled/35/000000/down.png"
+          id="down"
+          onClick={e => handleHAM(e)}
+        />
+        <img
+          src="https://img.icons8.com/ios-filled/35/000000/up.png"
+          id="up"
+          onClick={e => handleHAM(e)}
+        />
       </button>
       {isLoggedIn && (
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -83,6 +109,11 @@ const Navbar = props => {
             <li className="nav-item active">
               <Link className="navbar-brand" to="/adminPanel">
                 Admin Panel
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="navbar-brand" to="/forgotPassword">
+                Forgot Password
               </Link>
             </li>
           </ul>

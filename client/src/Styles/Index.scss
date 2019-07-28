@@ -50,19 +50,30 @@
   font-size: 3vh;
 }
 
-#backButton {
+#backButton,
+#up,
+#down {
   &:hover {
     cursor: pointer;
     transition: 1s;
   }
 }
-nav {
-  border-radius: 30px;
-  width: 100%;
-  overflow: hidden;
-  #lg {
-    justify-content: end;
-  }
+
+.navbar-nav {
+  @include centerDiv();
+}
+
+#home:hover {
+  cursor: pointer;
+}
+
+button.navbar-toggler {
+  padding: 0;
+  margin: 0;
+}
+
+button:focus {
+  outline: none;
 }
 
 @media only screen and (max-width: 768px) {
