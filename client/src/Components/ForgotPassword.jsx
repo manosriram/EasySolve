@@ -1,12 +1,26 @@
 import React from "react";
 import Navbar from "./Navbar";
+import { StyledInput, StyledButton } from "../Styles/StyledCom";
 import "../Styles/Index.scss";
 
-const ForgotPassword = () => {
+const ForgotPassword = props => {
+  const handleChange = () => {};
+  const handleSubmit = () => {};
+
   return (
     <>
       <Navbar />
-      <h3>ForgotPassword</h3>
+      <div id="LoginForm" onChange={handleChange}>
+        <h3>{props.message}</h3>
+        <br />
+        <br />
+        <StyledInput type="email" placeholder="Email Address" name="email" />
+        <br />
+        <br />
+        <StyledButton onClick={handleSubmit}>Login</StyledButton>
+        <br />
+        <br />
+      </div>
     </>
   );
 };
