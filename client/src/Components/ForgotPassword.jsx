@@ -14,10 +14,15 @@ const ForgotPassword = props => {
         <h3>{props.message}</h3>
         <br />
         <br />
-        <StyledInput type="email" placeholder="Email Address" name="email" />
+        <StyledInput
+          type="number"
+          placeholder="Phone Number"
+          name="phone"
+          maxLength={10}
+        />
         <br />
         <br />
-        <StyledButton onClick={handleSubmit}>Login</StyledButton>
+        <StyledButton onClick={handleSubmit}>Send OTP</StyledButton>
         <br />
         <br />
       </div>

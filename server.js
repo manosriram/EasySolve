@@ -7,6 +7,7 @@ const db = require("./Setup/url").url;
 const cookieparser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
+const nodemailer = require("nodemailer");
 
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname + "client/build")));
