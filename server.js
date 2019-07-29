@@ -11,7 +11,7 @@ const cors = require("cors");
 
 app.use(cors());
 app.use(fileUpload());
-app.use(express.static(path.join(__dirname + "client/build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 app.use(express.json());
 app.use(cookieparser());
 app.use("/auth", require("./Routes/Auth"));
