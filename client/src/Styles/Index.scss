@@ -76,6 +76,10 @@ button:focus {
   outline: none;
 }
 
+#navB {
+  background: #2980b9;
+}
+
 @media only screen and (max-width: 768px) {
   #backButton {
     width: 5vh;

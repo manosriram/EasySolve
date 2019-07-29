@@ -16,6 +16,7 @@ const UserQs = props => {
   const [postsPerPage] = useState(3);
   const [showAns, setShowAns] = useState(false);
   const [qid, set_q_id] = useState("");
+  const [isSpinning, setSpinner] = React.useState(true);
 
   const getQs = async username => {
     const resp = await fetch("/file/getUserQuestions", {
@@ -25,7 +26,7 @@ const UserQs = props => {
     });
     const data = await resp.json();
     props.setQuestions(data);
-    props.setLoader(false);
+    setSpinner(false);
   };
 
   const getStatus = async () => {
@@ -68,7 +69,7 @@ const UserQs = props => {
     return <Answers qID={qid} />;
   }
 
-  if (props.isSpinning) {
+  if (isSpinning) {
     return (
       <div className="d-flex justify-content-center" id="spinner">
         <div className="spinner-border" role="status">
@@ -80,7 +81,6 @@ const UserQs = props => {
     return (
       <>
         <Navbar props={props} />
-        <br />
         <br />
         <div>
           {props.questions.length === 0 && <h4 id="Qs">No Questions yet.</h4>}
@@ -152,6 +152,9 @@ const UserQs = props => {
             totalPosts={props.questions.length}
             paginate={paginate}
           />
+        </div>
+        <div className="footerElse">
+          <a id="anc">Your Questions.</a>
         </div>
       </>
     );

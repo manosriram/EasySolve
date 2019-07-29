@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 
 const Login = props => {
+  const [isSpinning, setSpinner] = React.useState(true);
   const setUserStatus = async () => {
     const resp = await fetch("/auth/isLoggedIn");
     const data = await resp.json();
@@ -14,8 +15,8 @@ const Login = props => {
   };
 
   useEffect(() => {
-    props.setLoader(true);
     setUserStatus();
+    setSpinner(false);
   }, []);
 
   const handleChange = e => {
@@ -23,20 +24,20 @@ const Login = props => {
   };
 
   const handleSubmit = e => {
+    setSpinner(true);
     var data = {
       email: props.email,
       password: props.password
     };
-    props.setLoader(true);
     props.handleSubmit(e, data);
+    setSpinner(false);
   };
 
   if (props.loggedInStatus) {
-    // window.location = "/home";
     props.history.push("/home");
   }
 
-  if (props.isSpinning) {
+  if (isSpinning) {
     return (
       <div className="d-flex justify-content-center" id="spinner">
         <div className="spinner-border" role="status">
@@ -47,28 +48,31 @@ const Login = props => {
   }
 
   return (
-    <div id="intro">
-      <Navbar props={props} />
-      <br />
-      <br />
-      <h3>User Login</h3>
-      <div id="LoginForm" onChange={handleChange}>
-        <h3>{props.message}</h3>
-        <br />
-        <StyledInput type="email" placeholder="Email Address" name="email" />
-        <br />
-        <br />
-        <StyledInput type="password" placeholder="Password" name="password" />
-        <br />
-        <br />
-        <StyledButton onClick={handleSubmit}>Login</StyledButton>
-        <br />
-        <br />
-        <p>
-          Not Registered ? <Link to="/register">Create an Account</Link>
-        </p>
+    <>
+      <div id="intro">
+        <Navbar props={props} />
+        <div id="LoginForm" onChange={handleChange}>
+          <br />
+          <h3>{props.message}</h3>
+          <br />
+          <StyledInput type="email" placeholder="Email Address" name="email" />
+          <br />
+          <br />
+          <StyledInput type="password" placeholder="Password" name="password" />
+          <br />
+          <br />
+          <StyledButton onClick={handleSubmit}>Login</StyledButton>
+          <br />
+          <br />
+          <p>
+            Not Registered ? <Link to="/register">Create an Account</Link>
+          </p>
+        </div>
       </div>
-    </div>
+      <div className="footerElse">
+        <a id="anc">Login Page.</a>
+      </div>
+    </>
   );
 };
 

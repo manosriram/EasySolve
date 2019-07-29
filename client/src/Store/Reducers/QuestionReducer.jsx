@@ -57,6 +57,11 @@ const QuestionReducer = (state = initState, action) => {
       attachment: null,
       question: ""
     };
+  } else if (action.type == "rmAt") {
+    return {
+      ...state,
+      attachment: null
+    };
   }
 
   return state;

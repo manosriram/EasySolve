@@ -57,7 +57,7 @@ const Answers = props => {
             <br />
             {ans.attachment && (
               <a href="#" onClick={() => window.open(ans.attachment)}>
-                <strong> Download File</strong>
+                <strong>Download File</strong>
                 &nbsp;&nbsp;
               </a>
             )}

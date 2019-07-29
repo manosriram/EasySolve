@@ -14,6 +14,13 @@ export const handleFileChange = e => {
   };
 };
 
+export const removeAtt = e => {
+  return {
+    type: "rmAt",
+    e
+  };
+};
+
 export const setUser = user => {
   return {
     type: "SET_U",

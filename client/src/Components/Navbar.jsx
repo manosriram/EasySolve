@@ -39,7 +39,7 @@ const Navbar = props => {
   };
 
   return (
-    <nav className="navbar navbar-inverse navbar-dark bg-warning">
+    <nav className="navbar navbar-inverse navbar-dark" id="navB">
       <img
         id="backButton"
         src="https://img.icons8.com/ios-filled/50/000000/circled-left.png"

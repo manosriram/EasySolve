@@ -7,8 +7,9 @@ const db = require("./Setup/url").url;
 const cookieparser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
-const nodemailer = require("nodemailer");
+const cors = require("cors");
 
+app.use(cors());
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname + "client/build")));
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(cookieparser());
 app.use("/auth", require("./Routes/Auth"));
 app.use("/file", require("./Routes/Files"));
 
+mongoose.set("useFindAndModify", false);
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected !"))

@@ -22,25 +22,30 @@ const Index = props => {
     return <Home isLoggedIn={props.loggedInStatus} />;
   } else {
     return (
-      <div id="intro">
-        <Navbar props={props} />
-        <div id="index">
-          <h1>Easy Solve !</h1>
-          <br />
-          <h3>You Ask, We Answer !</h3>
-          <br />
-          <h4>
-            <Link to="/login" id="lnk">
-              Login
-            </Link>{" "}
-            or{" "}
-            <Link to="/register" id="lnk">
-              Register
-            </Link>{" "}
-            to get started...
-          </h4>
+      <>
+        <div id="intro">
+          <Navbar props={props} />
+          <div id="index">
+            <h1>Easy Solve !</h1>
+            <br />
+            <h3>You Ask, We Answer !</h3>
+            <br />
+            <h4>
+              <Link to="/login" id="lnk">
+                Login
+              </Link>{" "}
+              or{" "}
+              <Link to="/register" id="lnk">
+                Register
+              </Link>{" "}
+              to get started...
+            </h4>
+          </div>
         </div>
-      </div>
+        <div className="footerElse">
+          <a id="anc">Easy Solve</a>
+        </div>
+      </>
     );
   }
 };

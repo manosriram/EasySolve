@@ -4,7 +4,6 @@ const Question = require("../Models/QuestionModel");
 const path = require("path");
 const AWS = require("aws-sdk");
 const _ = require("underscore");
-
 AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -48,15 +47,16 @@ router.post("/answerQuestion", async (req, res) => {
     an.save();
     return res.json({ success: true, message: "Answer submitted." });
   } else {
-    const s3 = new AWS.S3();
     const file = req.files.image.data;
+    const ext = `.${req.files.image.mimetype.split("/")[1]}`;
     const params = {
       Bucket: "easysolve",
-      Key: `answers/${username}-${Date.now().toString()}`,
+      Key: `answers/${username}-${Date.now().toString()}${ext}`,
       ACL: "public-read",
       Body: file
     };
 
+    var s3 = new AWS.S3();
     s3.putObject(params, async (err, data) => {
       if (err) {
         return res.json({ success: false, message: "Error uploading file.." });
@@ -124,14 +124,15 @@ router.post("/addQuestion", (req, res) => {
   }
 
   const { question, user } = req.body;
-  const s3 = new AWS.S3();
   const file = req.files.image.data;
+  const ext = `.${req.files.image.mimetype.split("/")[1]}`;
   const params = {
     Bucket: "easysolve",
-    Key: `questions/${user}-${Date.now().toString()}`,
+    Key: `questions/${user}-${Date.now().toString()}${ext}`,
     ACL: "public-read",
     Body: file
   };
+  var s3 = new AWS.S3();
   s3.putObject(params, (err, data) => {
     if (err) {
       console.log(err);

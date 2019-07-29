@@ -8,8 +8,9 @@ import Navbar from "./Navbar";
 import "../Styles/Auth.scss";
 
 const Register = props => {
+  const [isSpinning, setSpinner] = React.useState(true);
   useEffect(() => {
-    props.setLoading(false);
+    setSpinner(false);
   }, []);
 
   const handleChange = e => {
@@ -64,6 +65,7 @@ const Register = props => {
   };
 
   const handleSubmit = e => {
+    setSpinner(true);
     var { email, username, password, confirmPass, gender, age, phone } = props;
 
     var data = {
@@ -82,9 +84,10 @@ const Register = props => {
     } else {
       props.setMessage(ob.message);
     }
+    setSpinner(false);
   };
 
-  if (props.isSpinning) {
+  if (isSpinning) {
     return (
       <div class="d-flex justify-content-center" id="spinner">
         <div class="spinner-border" role="status">
@@ -95,63 +98,71 @@ const Register = props => {
   }
 
   return (
-    <div id="intro">
-      <Navbar props={props} />
-      <br />
-      <br />
-      <h3>User Registration.</h3>
-      <div id="RegisterForm" onChange={handleChange}>
-        <h3>{props.message}</h3>
-        <br />
-        <StyledInput type="email" placeholder="Email Address" name="email" />
-        <br />
-        <br />
-        <StyledInput type="text" placeholder="Username" name="username" />
-        <br />
-        <br />
-        <StyledInput type="password" placeholder="Password" name="password" />
-        <br />
-        <br />
-        <StyledInput
-          type="password"
-          placeholder="Confirm Password"
-          name="confirmPass"
-        />
-        <br />
-        <br />
-        <StyledInput
-          type="number"
-          placeholder="Phone Number"
-          maxLength="10"
-          name="phone"
-        />
-        <br />
-        <br />
-        <StyledInput type="number" placeholder="Age" maxLength="3" name="age" />
-        <br />
-        <br />
-        <h5>Gender</h5>
-        <label>Male</label>
-        &nbsp;
-        <input type="checkbox" value="Male" name="gender" />
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <label>Female</label>
-        &nbsp;
-        <input type="checkbox" value="Female" name="gender" />
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <label>Other</label>
-        &nbsp;
-        <input type="checkbox" value="Other" name="gender" />
-        <br />
-        <br />
-        <StyledButton onClick={handleSubmit}>Register</StyledButton>
-        <br />
-        <br />
-        <p>
-          Already Registered ? <Link to="/login">Login</Link>
-        </p>
+    <>
+      <div id="intro">
+        <Navbar props={props} />
+        <div id="RegisterForm" onChange={handleChange}>
+          <br />
+          <h3>{props.message}</h3>
+          <br />
+          <StyledInput type="email" placeholder="Email Address" name="email" />
+          <br />
+          <br />
+          <StyledInput type="text" placeholder="Username" name="username" />
+          <br />
+          <br />
+          <StyledInput type="password" placeholder="Password" name="password" />
+          <br />
+          <br />
+          <StyledInput
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPass"
+          />
+          <br />
+          <br />
+          <StyledInput
+            type="number"
+            placeholder="Phone Number"
+            maxLength="10"
+            name="phone"
+          />
+          <br />
+          <br />
+          <StyledInput
+            type="number"
+            placeholder="Age"
+            maxLength="3"
+            name="age"
+          />
+          <br />
+          <br />
+          <h5>Gender</h5>
+          <label>Male</label>
+          &nbsp;
+          <input type="checkbox" value="Male" name="gender" />
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label>Female</label>
+          &nbsp;
+          <input type="checkbox" value="Female" name="gender" />
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label>Other</label>
+          &nbsp;
+          <input type="checkbox" value="Other" name="gender" />
+          <br />
+          <br />
+          <StyledButton onClick={handleSubmit}>Register</StyledButton>
+          <br />
+          <br />
+          <p>
+            Already Registered ? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </div>
-    </div>
+      <div className="footerElse">
+        <a id="anc">Registration Page.</a>
+      </div>
+    </>
   );
 };
 

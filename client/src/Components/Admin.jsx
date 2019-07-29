@@ -14,6 +14,7 @@ const moment = require("moment");
 const Cookie = require("js-cookie");
 
 const Admin = props => {
+  const [isSpinning, setSpinner] = React.useState(true);
   const [q, setQ] = useState(undefined);
   const [Sans, setSA] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,11 +28,10 @@ const Admin = props => {
     const resp = await fetch("/file/getAllQuestions");
     const data = await resp.json();
     props.setQuestions(data);
-    props.setLoader(false);
+    setSpinner(false);
   };
 
   useEffect(() => {
-    props.setLoader(true);
     const fetchAdmin = async () => {
       const resp = await fetch("/auth/getAdminDet");
       const data = await resp.json();
@@ -44,7 +44,6 @@ const Admin = props => {
     };
     fetchAdmin();
     getQs();
-    props.setLoader(false);
   }, []);
 
   const showAnswers = _id => {
@@ -72,6 +71,16 @@ const Admin = props => {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
+  if (isSpinning) {
+    return (
+      <div className="d-flex justify-content-center" id="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   if (!lgSt) {
     return (
       <div id="pending">
@@ -94,16 +103,6 @@ const Admin = props => {
 
   if (showAns) {
     return <Answers qID={qid} email={adEm} />;
-  }
-
-  if (props.isSpinning) {
-    return (
-      <div className="d-flex justify-content-center" id="spinner">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -138,7 +137,11 @@ const Admin = props => {
               )}
               <p>Asked by ({question.askedBy})</p>
             </div>
-            <p>({ago})</p>
+            <p>
+              ({ago}) -> {question.answer.length}
+              {question.answer.length === 1 && " answer."}
+              {question.answer.length != 1 && " answers."}
+            </p>
             {question.attachment && (
               <>
                 <img id="img" src={question.attachment} alt="No Image added." />

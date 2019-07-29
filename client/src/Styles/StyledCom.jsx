@@ -18,9 +18,9 @@ export const StyledInput = styled.input`
 export const StyledButton = styled.button`
   outline: none;
   font-size: 2vh;
-  width: auto;
-  height: 5vh;
-  background: lightblue;
+  width: 15vh;
+  height: auto;
+  background: white;
   border-radius: 7px;
   transition: 0.3s;
 

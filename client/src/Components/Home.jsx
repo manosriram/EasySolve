@@ -8,21 +8,27 @@ import "../Styles/Home.scss";
 
 const Home = props => {
   const [username, setUsername] = React.useState("");
-  const [spinStat, setSpinStat] = React.useState(false);
+  const [isSpinning, setSpinner] = React.useState(true);
+
   const getStatus = async () => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
     setUsername(data.username);
+    setSpinner(false);
   };
+
   useEffect(() => {
     props.rstP();
     props.setMessage("");
     getStatus();
   }, []);
 
+  const removeAtt = () => {
+    props.removeAtt();
+  };
+
   const preSubmitHandler = e => {
     e.preventDefault();
-    setSpinStat(true);
     if (props.question && !props.attachment) {
       let formData = new FormData();
       formData.append("question", props.question);
@@ -39,11 +45,10 @@ const Home = props => {
     } else {
       props.setMessage("Fill all the fields..");
     }
-    setSpinStat(false);
     return;
   };
 
-  if (spinStat) {
+  if (isSpinning) {
     return (
       <div className="d-flex justify-content-center" id="spinner">
         <div className="spinner-border" role="status">
@@ -61,8 +66,8 @@ const Home = props => {
       <div id="message">
         <h2>Welcome {username}</h2>
         <br />
-        <br />
         <h3>{props.message}</h3>
+        <br />
       </div>
       <form id="questionArea">
         <textarea
@@ -92,6 +97,18 @@ const Home = props => {
           Select file
         </label>
         <br />
+        {props.attachment && (
+          <>
+            {props.attachment[0].name}
+            &nbsp;&nbsp;&nbsp;
+            <img
+              onClick={removeAtt}
+              id="delete"
+              src="https://img.icons8.com/flat_round/40/000000/delete-sign.png"
+            />
+          </>
+        )}
+        <br />
         <br />
         <StyledButton id="ask" onClick={preSubmitHandler}>
           Ask
@@ -119,7 +136,8 @@ const mapDispatchToProps = dispatch => {
     submitData: (e, data) => dispatch(actionCreator.submitData(e, data)),
     setUser: user => dispatch(actionCreator.setUser(user)),
     setMessage: msg => dispatch(actionCreator.setMessage(msg)),
-    rstP: () => dispatch(actionCreator.resetProps())
+    rstP: () => dispatch(actionCreator.resetProps()),
+    removeAtt: () => dispatch(actionCreator.removeAtt())
   };
 };
 

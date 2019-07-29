@@ -9,6 +9,7 @@ import AdminPanel from "./Components/AdminPanel";
 import Admin from "./Components/Admin";
 import Answers from "./Components/Answers";
 import ForgotPassword from "./Components/ForgotPassword";
+import SetPass from "./Components/SetPass";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route exact path="/answers" component={Answers} />
         <Route exact path="/admin_T_A" component={Admin} />
         <Route exact path="/forgotPassword" component={ForgotPassword} />
+        <Route exact path="/setPass" component={SetPass} />
       </BrowserRouter>
     </>
   );

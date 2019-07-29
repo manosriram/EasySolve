@@ -44,9 +44,8 @@ const AdminPanel = props => {
   return (
     <>
       <Navbar props={props} />
-      <br />
-      <h3 id="intro">Admin Login</h3>
       <div id="LoginForm" onChange={e => props.handleChange(e)}>
+        <br />
         <h3>{msg}</h3>
         <br />
         <StyledInput type="email" placeholder="Email Address" name="email" />
@@ -58,6 +57,9 @@ const AdminPanel = props => {
         <StyledButton onClick={handleSubmit}>Login</StyledButton>
         <br />
         <br />
+      </div>
+      <div className="footerElse">
+        <a id="anc">Admin Login.</a>
       </div>
     </>
   );
