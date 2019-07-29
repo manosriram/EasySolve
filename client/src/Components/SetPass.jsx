@@ -92,7 +92,7 @@ const SetPass = props => {
         <StyledButton onClick={handleSubmit}>Update Password</StyledButton>
         <br />
         <br />
-        <a href="!#" onClick={cancelPC}>
+        <a href="/" onClick={cancelPC}>
           Cancel
         </a>
       </div>
