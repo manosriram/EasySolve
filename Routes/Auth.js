@@ -7,6 +7,20 @@ const key = require("../Setup/url").secret;
 const Admin = require("../Models/AdminModel");
 const nodemailer = require("nodemailer");
 const Ck = require("js-cookie");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+
+const { oClientID, oClientSecret, refreshToken } = process.env;
+
+const oauth2Client = new OAuth2(
+  oClientID,
+  oClientSecret,
+  "https://developers.google.com/oauthplayground" // Redirect URL
+);
+oauth2Client.setCredentials({
+  refresh_token: refreshToken
+});
+const accessToken = oauth2Client.getAccessToken();
 
 const makeRandURLWRD = length => {
   var result = "";
@@ -77,8 +91,12 @@ router.post("/forgotPassword", (req, res) => {
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
+          type: "OAuth2",
           user: "easysolve.co.in@gmail.com",
-          pass: "Easysolve@2019"
+          clientId: oClientID,
+          clientSecret: oClientSecret,
+          refreshToken: refreshToken,
+          accessToken: accessToken
         }
       });
 
@@ -104,8 +122,8 @@ router.post("/forgotPassword", (req, res) => {
       `;
 
       const mailOptions = {
-        from: "easysolve.co.in@gmail.com", // sender address
-        to: user.email, // list of receivers
+        from: "easysolve.co.in@gmail.com",
+        to: user.email,
         subject: "Easy-Solve Forgot Password", // Subject line
         html: htmlTemplate
       };
