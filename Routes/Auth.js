@@ -72,7 +72,7 @@ router.get("/forgotPassword/:randWr/:otp", (req, res) => {
     if (ck === req.params.otp && randAlpha === req.params.randWr) {
       res.clearCookie("fp_rand_url_ot_local");
       res.cookie("scs", true);
-      res.redirect("easysolve.herokuapp.com/forgotPassword");
+      res.redirect("/auth/forgotPassword");
     } else {
       res.cookie("scs", false);
       return res.json({
