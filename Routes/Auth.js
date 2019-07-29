@@ -101,7 +101,7 @@ router.post("/forgotPassword", (req, res) => {
       });
 
       const randW = makeRandURLWRD(80);
-      const lnk = `easysolve.herokuapp.com/forgotPassword/${randW}/${OTP}`;
+      const lnk = `easysolve.herokuapp.com/auth/forgotPassword/${randW}/${OTP}`;
       var date = new Date();
       date.setTime(date.getTime() + 600 * 1000);
 
