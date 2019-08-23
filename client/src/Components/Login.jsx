@@ -23,13 +23,13 @@ const Login = props => {
     props.handleChange(e);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     setSpinner(true);
     var data = {
       email: props.email,
       password: props.password
     };
-    props.handleSubmit(e, data);
+    await props.handleSubmit(e, data);
     setSpinner(false);
   };
 

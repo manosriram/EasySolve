@@ -64,7 +64,7 @@ const Register = props => {
     return { success: true };
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     setSpinner(true);
     var { email, username, password, confirmPass, gender, age, phone } = props;
 
@@ -80,7 +80,7 @@ const Register = props => {
     const ob = confirmChecks(data);
     if (ob.success) {
       props.setLoading(true);
-      props.handleSubmit(e, data);
+      await props.handleSubmit(e, data);
     } else {
       props.setMessage(ob.message);
     }

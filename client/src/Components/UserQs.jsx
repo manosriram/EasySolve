@@ -25,7 +25,7 @@ const UserQs = props => {
       body: JSON.stringify({ user: username })
     });
     const data = await resp.json();
-    props.setQuestions(data);
+    await props.setQuestions(data);
     setSpinner(false);
   };
 
@@ -33,7 +33,7 @@ const UserQs = props => {
     props.setLoader(true);
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
-    props.setUser(data.email);
+    await props.setUser(data.email);
     getQs(data.username);
   };
 

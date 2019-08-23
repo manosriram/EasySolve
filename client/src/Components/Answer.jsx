@@ -22,11 +22,11 @@ const Answer = ({ question, id, attachment, adminEmail }, props) => {
   const [userData, setUserData] = useState({});
   const [message, setMessage] = useState("");
 
-  const confirmChecks = e => {
+  const confirmChecks = async e => {
     e.preventDefault();
     if (!userData.username || userData.username.length < 4) {
       setMessage("Username too small, Min. 4 chars");
-    } else preSubmitHandler(e);
+    } else await preSubmitHandler(e);
   };
 
   const submitData = async (e, formData) => {
