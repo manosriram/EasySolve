@@ -14,37 +14,49 @@ const Home = props => {
     const resp = await fetch("/auth/userInfo");
     const data = await resp.json();
     setUsername(data.username);
-    setSpinner(false);
   };
 
   useEffect(() => {
     props.rstP();
     props.setMessage("");
     getStatus();
+    setSpinner(false);
   }, []);
 
   const removeAtt = () => {
     props.removeAtt();
   };
 
-  const preSubmitHandler = e => {
+  const setLoaderFunc = async e => {
+    setSpinner(true);
+    await preSubmitHandler(e);
+    setSpinner(false);
+  }
+
+  const clearFormData = formData => {
+    formData.forEach((val, key, fD) => {
+      formData.delete(key);
+    });
+  }
+
+  const preSubmitHandler = async e => {
     e.preventDefault();
+    let formData = new FormData();
     if (props.question && !props.attachment) {
-      let formData = new FormData();
       formData.append("question", props.question);
       formData.append("user", username);
-      props.submitData(e, formData);
+      await props.submitData(e, formData);      
     } else if (props.attachment || props.question) {
-      let formData = new FormData();
       formData.append("image", props.attachment[0]);
       formData.append("question", props.question);
       formData.append("user", username);
       formData.set("method", "post");
       formData.append("enctype", "multipart/form-data");
-      props.submitData(e, formData);
+      await props.submitData(e, formData);
     } else {
-      props.setMessage("Fill all the fields..");
+      await props.setMessage("Fill all the fields..");
     }
+    props.removeAtt();
     return;
   };
 
@@ -90,7 +102,7 @@ const Home = props => {
         <br />
         <label
           itemType="file"
-          for="files"
+          htmlFor="files"
           id="fle"
           onChange={props.handleFileChange}
         >
@@ -110,7 +122,7 @@ const Home = props => {
         )}
         <br />
         <br />
-        <StyledButton id="ask" onClick={preSubmitHandler}>
+        <StyledButton id="ask" onClick={setLoaderFunc}>
           Ask
         </StyledButton>
       </form>
